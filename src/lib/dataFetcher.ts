@@ -614,6 +614,259 @@ function generateMockItems(): AuctionItem[] {
     createdAt: now.toISOString()
   });
 
+  // Additional Active Items
+  items.push({
+    id: 'gsa-015',
+    title: 'Ambulance Fleet - Emergency Vehicles',
+    description: 'Set of 4 decommissioned ambulances. All vehicles fully functional, medical equipment removed. Perfect for conversion to mobile businesses or transport vehicles.',
+    shortDescription: 'Set of 4 ambulances, fully functional',
+    location: 'New York, NY',
+    country: 'United States',
+    state: 'New York',
+    city: 'New York',
+    assetType: 'cars',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-016',
+    title: 'Boat Trailer - Heavy Duty',
+    description: 'Commercial-grade boat trailer suitable for vessels up to 30 feet. Galvanized steel construction, tandem axle with electric brakes. Excellent condition.',
+    shortDescription: 'Heavy-duty boat trailer, 30ft capacity',
+    location: 'Miami, FL',
+    country: 'United States',
+    state: 'Florida',
+    city: 'Miami',
+    assetType: 'trailers',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 90 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-017',
+    title: 'Agricultural Land - 45 Acres',
+    description: 'Fertile agricultural land with irrigation system. Previously used for government research. Excellent soil quality with access to water rights.',
+    shortDescription: '45 acres agricultural land with irrigation',
+    location: 'Sacramento, CA',
+    country: 'United States',
+    state: 'California',
+    city: 'Sacramento',
+    assetType: 'land-buildings',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-018',
+    title: '2019 Kawasaki Police Motorcycles - Set of 6',
+    description: 'Six retired police motorcycles, all in excellent working condition. Low mileage, well-maintained. Police equipment to be removed before sale.',
+    shortDescription: 'Set of 6 Kawasaki police motorcycles',
+    location: 'Las Vegas, NV',
+    country: 'United States',
+    state: 'Nevada',
+    city: 'Las Vegas',
+    assetType: 'motorcycles',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-019',
+    title: 'Shipping Containers - Set of 20',
+    description: '20-foot shipping containers in good condition. Weather-tight and secure. Ideal for storage, construction sites, or conversion projects.',
+    shortDescription: 'Set of 20 shipping containers, 20ft',
+    location: 'Baltimore, MD',
+    country: 'United States',
+    state: 'Maryland',
+    city: 'Baltimore',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 6 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-020',
+    title: 'Printing Equipment - Commercial Press',
+    description: 'Industrial printing press with binding equipment. Recently decommissioned from government printing office. Includes maintenance records and manuals.',
+    shortDescription: 'Commercial printing press with binding',
+    location: 'Philadelphia, PA',
+    country: 'United States',
+    state: 'Pennsylvania',
+    city: 'Philadelphia',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 11 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1578664182689-57e8b2e3d9a4?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1578664182689-57e8b2e3d9a4?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-006',
+    title: 'Council Office Building - City Centre',
+    description: '12,000 sq ft former council offices in prime city centre location. Multiple floors with lift access. Suitable for conversion to apartments or commercial use.',
+    shortDescription: 'City centre office building, 12,000 sq ft',
+    location: 'Glasgow',
+    country: 'United Kingdom',
+    region: 'Scotland',
+    city: 'Glasgow',
+    assetType: 'land-buildings',
+    auctionEndDate: new Date(now.getTime() + 9 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-007',
+    title: 'Police Patrol Cars - Set of 8',
+    description: 'Eight decommissioned police patrol vehicles. Various models including BMW and Volvo. All with high-performance specifications and maintenance records.',
+    shortDescription: 'Set of 8 ex-police patrol cars',
+    location: 'Liverpool',
+    country: 'United Kingdom',
+    region: 'North West England',
+    city: 'Liverpool',
+    assetType: 'cars',
+    auctionEndDate: new Date(now.getTime() + 150 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1506015391300-1012d0ee2ea7?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1506015391300-1012d0ee2ea7?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  // More Future Items
+  items.push({
+    id: 'gsa-future-004',
+    title: 'Airport Hangar - Private Aviation',
+    description: 'Upcoming auction for private aviation hangar at regional airport. 15,000 sq ft with modern facilities and excellent runway access.',
+    shortDescription: 'Private aviation hangar, 15,000 sq ft',
+    location: 'Austin, TX',
+    country: 'United States',
+    state: 'Texas',
+    city: 'Austin',
+    assetType: 'land-buildings',
+    auctionStartDate: new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 55 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-future-005',
+    title: 'Fire Trucks - Emergency Response Vehicles',
+    description: 'Upcoming sale of 3 decommissioned fire trucks. All in working order with recent inspections. Suitable for rural fire departments or collectors.',
+    shortDescription: 'Set of 3 fire trucks, working order',
+    location: 'Phoenix, AZ',
+    country: 'United States',
+    state: 'Arizona',
+    city: 'Phoenix',
+    assetType: 'cars',
+    auctionStartDate: new Date(now.getTime() + 28 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 43 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-future-002',
+    title: 'Coastal Property - Development Site',
+    description: 'Upcoming sale of 5-acre coastal development site with planning permission. Stunning sea views and excellent location for residential development.',
+    shortDescription: '5-acre coastal development site',
+    location: 'Brighton',
+    country: 'United Kingdom',
+    region: 'South East England',
+    city: 'Brighton',
+    assetType: 'land-buildings',
+    auctionStartDate: new Date(now.getTime() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
   return items;
 }
 

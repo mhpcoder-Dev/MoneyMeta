@@ -71,13 +71,13 @@ export default function ItemCard({ item }: ItemCardProps) {
                 loading="lazy"
               />
               <div className="absolute top-3 left-3">
-                <Badge variant="secondary" className="font-semibold shadow-lg backdrop-blur-sm bg-background/90">
+                <Badge variant="secondary" className="font-semibold shadow-lg backdrop-blur-md bg-secondary/95 hover:bg-secondary border border-secondary-foreground/20">
                   {getAssetTypeLabel(item.assetType)}
                 </Badge>
               </div>
               {!item.isActive && (
                 <div className="absolute top-3 right-3">
-                  <Badge variant="outline" className="shadow-lg backdrop-blur-sm bg-background/90">Historical</Badge>
+                  <Badge variant="outline" className="font-semibold shadow-lg backdrop-blur-md bg-background/95 hover:bg-background border-2">Historical</Badge>
                 </div>
               )}
             </div>
