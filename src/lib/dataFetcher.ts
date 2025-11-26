@@ -223,6 +223,397 @@ function generateMockItems(): AuctionItem[] {
     createdAt: now.toISOString()
   });
 
+  // More US Items with varied end times
+  items.push({
+    id: 'gsa-005',
+    title: 'Industrial Warehouse - 50,000 sq ft',
+    description: 'Large industrial warehouse facility with high ceilings, loading docks, and rail access. Perfect for manufacturing or distribution operations.',
+    shortDescription: 'Industrial warehouse with rail access',
+    location: 'Detroit, MI',
+    country: 'United States',
+    state: 'Michigan',
+    city: 'Detroit',
+    assetType: 'land-buildings',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 30 * 60 * 1000).toISOString(), // 30 minutes
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-006',
+    title: 'Medical Equipment - Hospital Grade',
+    description: 'Surplus medical equipment including monitors, diagnostic tools, and patient care devices. All equipment recently decommissioned and in working order.',
+    shortDescription: 'Hospital-grade medical equipment lot',
+    location: 'Boston, MA',
+    country: 'United States',
+    state: 'Massachusetts',
+    city: 'Boston',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString(), // 2 hours
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-007',
+    title: 'Construction Equipment - Excavator',
+    description: 'Heavy-duty construction excavator in excellent working condition. Recent maintenance and inspection completed. Ideal for construction or excavation projects.',
+    shortDescription: 'Heavy-duty excavator, well-maintained',
+    location: 'Denver, CO',
+    country: 'United States',
+    state: 'Colorado',
+    city: 'Denver',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 5 * 60 * 60 * 1000).toISOString(), // 5 hours
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-008',
+    title: '2020 Chevrolet Tahoe SUV',
+    description: 'Former government vehicle, well-maintained with complete service records. 4WD, leather interior, towing package. Approximately 38,000 miles.',
+    shortDescription: '2020 Chevy Tahoe, 4WD, 38k miles',
+    location: 'Atlanta, GA',
+    country: 'United States',
+    state: 'Georgia',
+    city: 'Atlanta',
+    assetType: 'cars',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 12 * 60 * 60 * 1000).toISOString(), // 12 hours
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-009',
+    title: 'IT Equipment Lot - Servers and Networking',
+    description: 'Surplus IT infrastructure including enterprise servers, network switches, and storage systems. All equipment securely wiped and ready for deployment.',
+    shortDescription: 'Enterprise IT equipment and servers',
+    location: 'San Jose, CA',
+    country: 'United States',
+    state: 'California',
+    city: 'San Jose',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-010',
+    title: 'Cargo Van Fleet - Set of 8',
+    description: 'Fleet of 8 cargo vans previously used for government operations. All vehicles maintained regularly with complete service records. Variety of makes and models available.',
+    shortDescription: 'Fleet of 8 cargo vans, well-maintained',
+    location: 'Chicago, IL',
+    country: 'United States',
+    state: 'Illinois',
+    city: 'Chicago',
+    assetType: 'cars',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1562583489-bf23ec64651d?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1562583489-bf23ec64651d?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-011',
+    title: 'Portable Office Trailers - Set of 3',
+    description: 'Three mobile office trailers in good condition. Each unit includes HVAC, electrical, and basic furnishings. Perfect for temporary job sites or additional workspace.',
+    shortDescription: 'Set of 3 portable office trailers',
+    location: 'Houston, TX',
+    country: 'United States',
+    state: 'Texas',
+    city: 'Houston',
+    assetType: 'trailers',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-012',
+    title: 'Retail Space - High Traffic Location',
+    description: '4,200 sq ft retail space in busy shopping district. Large storefront windows, modern fixtures, and ample parking. Excellent visibility and foot traffic.',
+    shortDescription: '4,200 sq ft retail space, prime location',
+    location: 'Seattle, WA',
+    country: 'United States',
+    state: 'Washington',
+    city: 'Seattle',
+    assetType: 'land-buildings',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-013',
+    title: '2021 Honda CB500X Adventure Bike',
+    description: 'Government surplus adventure motorcycle in excellent condition. Low mileage, well-maintained, ready for civilian use. Includes all original equipment and documentation.',
+    shortDescription: '2021 Honda CB500X, low mileage',
+    location: 'Portland, OR',
+    country: 'United States',
+    state: 'Oregon',
+    city: 'Portland',
+    assetType: 'motorcycles',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-014',
+    title: 'Industrial Generator - 750kW',
+    description: 'High-capacity diesel generator with automatic transfer switch. Recently serviced and tested. Suitable for large facilities or emergency backup power.',
+    shortDescription: '750kW industrial diesel generator',
+    location: 'Dallas, TX',
+    country: 'United States',
+    state: 'Texas',
+    city: 'Dallas',
+    assetType: 'other',
+    auctionStartDate: now.toISOString(),
+    auctionEndDate: new Date(now.getTime() + 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  // More UK Items
+  items.push({
+    id: 'uk-003',
+    title: 'Former NHS Property - Medical Office',
+    description: '3,800 sq ft former medical office space. Includes multiple examination rooms, waiting area, and administrative offices. Well-maintained facility in good condition.',
+    shortDescription: 'Former NHS medical office, 3,800 sq ft',
+    location: 'Birmingham',
+    country: 'United Kingdom',
+    region: 'West Midlands',
+    city: 'Birmingham',
+    assetType: 'land-buildings',
+    auctionEndDate: new Date(now.getTime() + 45 * 60 * 1000).toISOString(), // 45 minutes
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-004',
+    title: 'Government Fleet Vans - Set of 5',
+    description: 'Five Ford Transit vans from government fleet. All vehicles regularly serviced with complete maintenance records. Various mileages, all in good working order.',
+    shortDescription: 'Set of 5 Ford Transit vans, ex-fleet',
+    location: 'Leeds',
+    country: 'United Kingdom',
+    region: 'West Yorkshire',
+    city: 'Leeds',
+    assetType: 'cars',
+    auctionEndDate: new Date(now.getTime() + 4 * 60 * 60 * 1000).toISOString(), // 4 hours
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1527786356703-4b100091cd2c?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1527786356703-4b100091cd2c?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-005',
+    title: 'Surplus Land - Development Opportunity',
+    description: '1.8 acres of former council land with planning potential. Flat terrain with utilities available. Located in developing area with good transport links.',
+    shortDescription: '1.8 acres development land',
+    location: 'Bristol',
+    country: 'United Kingdom',
+    region: 'South West England',
+    city: 'Bristol',
+    assetType: 'land-buildings',
+    auctionEndDate: new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000).toISOString(), // 6 days
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: true,
+    isFuture: false,
+    images: ['https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  // Future items for Future Items page
+  items.push({
+    id: 'gsa-future-001',
+    title: 'Commercial Property - Waterfront Location',
+    description: 'Upcoming auction for premium waterfront commercial property. 8,000 sq ft building with stunning views. Ideal for restaurant, retail, or office use.',
+    shortDescription: 'Waterfront commercial property, 8,000 sq ft',
+    location: 'San Francisco, CA',
+    country: 'United States',
+    state: 'California',
+    city: 'San Francisco',
+    assetType: 'land-buildings',
+    auctionStartDate: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-future-002',
+    title: 'Electric Vehicle Fleet - 15 Units',
+    description: 'Upcoming auction for fleet of 15 electric vehicles from government operations. Various makes and models, all with charging equipment included.',
+    shortDescription: 'Fleet of 15 electric vehicles',
+    location: 'Los Angeles, CA',
+    country: 'United States',
+    state: 'California',
+    city: 'Los Angeles',
+    assetType: 'cars',
+    auctionStartDate: new Date(now.getTime() + 20 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 35 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'gsa-future-003',
+    title: 'Laboratory Equipment - Research Grade',
+    description: 'Upcoming surplus sale of advanced laboratory equipment including microscopes, centrifuges, and analytical instruments. All equipment recently decommissioned.',
+    shortDescription: 'Research-grade lab equipment',
+    location: 'Research Triangle, NC',
+    country: 'United States',
+    state: 'North Carolina',
+    city: 'Research Triangle Park',
+    assetType: 'other',
+    auctionStartDate: new Date(now.getTime() + 25 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://gsaauctions.gov/',
+    sourceName: 'GSA Auctions',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop',
+    licenseId: 'us-public-domain',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
+  items.push({
+    id: 'uk-future-001',
+    title: 'Historic Building - Conversion Opportunity',
+    description: 'Upcoming sale of Grade II listed building with conversion potential. Former government administrative building in prime central location.',
+    shortDescription: 'Historic building conversion opportunity',
+    location: 'Edinburgh',
+    country: 'United Kingdom',
+    region: 'Scotland',
+    city: 'Edinburgh',
+    assetType: 'land-buildings',
+    auctionStartDate: new Date(now.getTime() + 35 * 24 * 60 * 60 * 1000).toISOString(),
+    auctionEndDate: new Date(now.getTime() + 50 * 24 * 60 * 60 * 1000).toISOString(),
+    sourceUrl: 'https://www.data.gov.uk/',
+    sourceName: 'UK Register of Surplus Land',
+    isActive: false,
+    isFuture: true,
+    images: ['https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&h=600&fit=crop'],
+    imageUrl: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&h=600&fit=crop',
+    licenseId: 'uk-ogl',
+    fetchedAt: now.toISOString(),
+    createdAt: now.toISOString()
+  });
+
   return items;
 }
 
