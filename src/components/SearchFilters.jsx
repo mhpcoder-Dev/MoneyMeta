@@ -7,20 +7,16 @@ import { Search, X } from 'lucide-react';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
-    'land-buildings': 'Land & Buildings',
+    'land': 'Land',
     'real-estate': 'Real Estate',
     'vehicles': 'Vehicles',
-    'cars': 'Cars',
-    'trailers': 'Trailers',
     'motorcycles': 'Motorcycles',
-    'bikes': 'Bikes',
     'electronics': 'Electronics',
     'industrial': 'Industrial',
     'furniture': 'Furniture',
-    'collectibles': 'Collectibles',
-    'other': 'Other'
+    'collectibles': 'Collectibles'
   };
-  return labels[assetType] || 'Other';
+  return labels[assetType] || assetType;
 };
 
 export default function SearchFilters({
@@ -33,9 +29,8 @@ export default function SearchFilters({
   availableCountries,
 }) {
   const assetTypes = [
-    'land-buildings', 'real-estate', 'vehicles', 'cars', 'trailers', 
-    'motorcycles', 'bikes', 'electronics', 'industrial', 'furniture', 
-    'collectibles', 'other'
+    'land', 'real-estate', 'vehicles', 'motorcycles', 
+    'electronics', 'industrial', 'furniture', 'collectibles'
   ];
 
   const clearAllFilters = () => {

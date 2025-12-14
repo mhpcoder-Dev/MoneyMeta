@@ -90,7 +90,7 @@ export default function ItemCard({ item }) {
     <>
       <Card 
         id={`item-${item.id}`}
-        className="scroll-mt-24 shadow-card hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col h-full bg-[#1a1f3a] border-0 rounded-xl overflow-hidden group"
+        className="scroll-mt-24 shadow-card hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden group"
         onClick={() => setShowModal(true)}
         role="button"
         tabIndex={0}
@@ -148,41 +148,41 @@ export default function ItemCard({ item }) {
           <CardContent className="p-4 flex-grow">
             <div className="space-y-3">
               {/* Agency/Source */}
-              <div className="text-xs text-white/60 font-medium">
+              <div className="text-xs text-gray-600 font-medium">
                 {item.agency || 'Government Auction'}
               </div>
               
               {/* Location */}
-              <div className="flex items-center gap-2 text-white/80">
+              <div className="flex items-center gap-2 text-gray-700">
                 <MapPin className="h-3 w-3 flex-shrink-0" />
                 <span className="text-xs truncate">{item.location}</span>
               </div>
 
               {/* Title */}
-              <CardTitle className="text-base leading-tight line-clamp-2 text-white font-semibold">
+              <CardTitle className="text-base leading-tight line-clamp-2 text-gray-900 font-semibold">
                 {item.title}
               </CardTitle>
               
               {/* Bid Info */}
-              <div className="flex items-center justify-between pt-2 border-t border-white/10">
+              <div className="flex items-center justify-between pt-2 border-t border-gray-200">
                 {item.currentBid ? (
                   <div className="flex flex-col">
-                    <span className="text-xs text-white/60">Current Bid</span>
-                    <span className="font-bold text-[#d4ff00]">
+                    <span className="text-xs text-gray-600">Current Bid</span>
+                    <span className="font-bold text-green-600">
                       ${item.currentBid?.toLocaleString()}
                     </span>
                   </div>
                 ) : (
                   <div className="flex flex-col">
-                    <span className="text-xs text-white/60">Starting Bid</span>
-                    <span className="font-bold text-white">
+                    <span className="text-xs text-gray-600">Starting Bid</span>
+                    <span className="font-bold text-gray-900">
                       ${item.startingBid?.toLocaleString() || 'TBD'}
                     </span>
                   </div>
                 )}
                 
                 {timeRemaining && (
-                  <div className="flex items-center gap-1 text-white/80">
+                  <div className="flex items-center gap-1 text-gray-700">
                     <Calendar className="h-3 w-3 flex-shrink-0" />
                     <span className="text-xs font-medium">{timeRemaining}</span>
                   </div>
