@@ -91,7 +91,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl text-navy">{displayItem.title}</DialogTitle>
+            <DialogTitle className="text-xl text-white">{displayItem.title}</DialogTitle>
             <Button
               variant="outline"
               size="sm"
@@ -141,10 +141,10 @@ export default function ItemModal({ item, open, onOpenChange }) {
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Tag className="h-4 w-4 text-navy" />
-                  <span className="font-medium text-navy">Asset Type</span>
+                  <Tag className="h-4 w-4 text-blue-400" />
+                  <span className="font-medium text-white">Asset Type</span>
                 </div>
-                <Badge variant="secondary" className="bg-navy/10 text-navy">
+                <Badge variant="secondary" className="bg-blue-500/20 text-blue-300">
                   {getAssetTypeLabel(displayItem.assetType)}
                 </Badge>
               </CardContent>
@@ -154,8 +154,8 @@ export default function ItemModal({ item, open, onOpenChange }) {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-green-600" />
-                    <span className="font-medium text-navy">Current Bid</span>
+                    <DollarSign className="h-4 w-4 text-green-400" />
+                    <span className="font-medium text-white">Current Bid</span>
                   </div>
                   <p className="text-lg font-semibold text-green-600">{formatCurrency(displayItem.currentBid)}</p>
                   {displayItem.bidCount > 0 && (
@@ -172,10 +172,10 @@ export default function ItemModal({ item, open, onOpenChange }) {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-navy" />
-                    <span className="font-medium text-navy">Starting Bid</span>
+                    <DollarSign className="h-4 w-4 text-blue-400" />
+                    <span className="font-medium text-white">Starting Bid</span>
                   </div>
-                  <p className="text-lg font-semibold">{formatCurrency(displayItem.startingBid)}</p>
+                  <p className="text-lg font-semibold text-white">{formatCurrency(displayItem.startingBid)}</p>
                 </CardContent>
               </Card>
             )}
@@ -184,10 +184,10 @@ export default function ItemModal({ item, open, onOpenChange }) {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock className="h-4 w-4 text-navy" />
-                    <span className="font-medium text-navy">Auction Ends</span>
+                    <Clock className="h-4 w-4 text-blue-400" />
+                    <span className="font-medium text-white">Auction Ends</span>
                   </div>
-                  <p className="text-sm">{formatDate(displayItem.auctionEndDate)}</p>
+                  <p className="text-sm text-white">{formatDate(displayItem.auctionEndDate)}</p>
                   {displayItem.auctionStatus && (
                     <Badge 
                       variant="outline" 
@@ -208,9 +208,9 @@ export default function ItemModal({ item, open, onOpenChange }) {
           {/* Description */}
           {displayItem.description && (
             <div className="space-y-2">
-              <h3 className="font-semibold text-navy">Description</h3>
+              <h3 className="font-semibold text-white">Description</h3>
               <div 
-                className="text-sm text-muted-foreground prose prose-sm max-w-none"
+                className="text-sm text-gray-300 prose prose-sm max-w-none prose-invert"
                 dangerouslySetInnerHTML={{ __html: displayItem.description }}
               />
             </div>
@@ -219,8 +219,8 @@ export default function ItemModal({ item, open, onOpenChange }) {
           {/* Instructions */}
           {displayItem.instructions && (
             <div className="space-y-2">
-              <h3 className="font-semibold text-navy">Instructions</h3>
-              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+              <h3 className="font-semibold text-white">Instructions</h3>
+              <p className="text-sm text-gray-300 whitespace-pre-wrap">
                 {displayItem.instructions}
               </p>
             </div>
@@ -228,54 +228,54 @@ export default function ItemModal({ item, open, onOpenChange }) {
 
           {/* Additional details */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-navy">Additional Information</h3>
+            <h3 className="font-semibold text-white">Additional Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               {displayItem.agency && (
                 <div>
-                  <span className="font-medium text-navy">Agency:</span>
-                  <p className="text-muted-foreground">{displayItem.agency}</p>
+                  <span className="font-medium text-white">Agency:</span>
+                  <p className="text-gray-300">{displayItem.agency}</p>
                 </div>
               )}
               {displayItem.category && (
                 <div>
-                  <span className="font-medium text-navy">Category:</span>
-                  <p className="text-muted-foreground">{displayItem.category}</p>
+                  <span className="font-medium text-white">Category:</span>
+                  <p className="text-gray-300">{displayItem.category}</p>
                 </div>
               )}
               {displayItem.auctionStartDate && (
                 <div>
-                  <span className="font-medium text-navy">Auction Start:</span>
-                  <p className="text-muted-foreground">{formatDate(displayItem.auctionStartDate)}</p>
+                  <span className="font-medium text-white">Auction Start:</span>
+                  <p className="text-gray-300">{formatDate(displayItem.auctionStartDate)}</p>
                 </div>
               )}
               {displayItem.propertyAddress && (
                 <div>
-                  <span className="font-medium text-navy">Property Address:</span>
-                  <p className="text-muted-foreground">{displayItem.propertyAddress}</p>
+                  <span className="font-medium text-white">Property Address:</span>
+                  <p className="text-gray-300">{displayItem.propertyAddress}</p>
                 </div>
               )}
               {displayItem.contractOfficer && (
                 <div>
-                  <span className="font-medium text-navy">Contract Officer:</span>
-                  <p className="text-muted-foreground">{displayItem.contractOfficer}</p>
+                  <span className="font-medium text-white">Contract Officer:</span>
+                  <p className="text-gray-300">{displayItem.contractOfficer}</p>
                 </div>
               )}
               {displayItem.coEmail && (
                 <div>
-                  <span className="font-medium text-navy">Contact Email:</span>
-                  <p className="text-muted-foreground">{displayItem.coEmail}</p>
+                  <span className="font-medium text-white">Contact Email:</span>
+                  <p className="text-gray-300">{displayItem.coEmail}</p>
                 </div>
               )}
               {displayItem.coPhone && (
                 <div>
-                  <span className="font-medium text-navy">Contact Phone:</span>
-                  <p className="text-muted-foreground">{displayItem.coPhone}</p>
+                  <span className="font-medium text-white">Contact Phone:</span>
+                  <p className="text-gray-300">{displayItem.coPhone}</p>
                 </div>
               )}
               {displayItem.inspectionDate && (
                 <div>
-                  <span className="font-medium text-navy">Inspection Date:</span>
-                  <p className="text-muted-foreground">{formatDate(displayItem.inspectionDate)}</p>
+                  <span className="font-medium text-white">Inspection Date:</span>
+                  <p className="text-gray-300">{formatDate(displayItem.inspectionDate)}</p>
                 </div>
               )}
             </div>

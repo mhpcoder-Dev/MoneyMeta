@@ -107,13 +107,13 @@ export default function ItemCard({ item }) {
           {primaryImage && (
             <div 
               ref={imgRef}
-              className="relative aspect-[16/9] w-full overflow-hidden bg-[#0f1429]"
+              className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100"
             >
               {shouldLoad ? (
                 <>
                   {!imageLoaded && (
-                    <div className="absolute inset-0 bg-[#0f1429] animate-pulse flex items-center justify-center">
-                      <div className="text-gray-600 text-sm">Loading...</div>
+                    <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                      <div className="text-gray-500 text-sm">Loading...</div>
                     </div>
                   )}
                   <img
@@ -128,8 +128,8 @@ export default function ItemCard({ item }) {
                   />
                 </>
               ) : (
-                <div className="w-full h-full bg-[#0f1429] animate-pulse flex items-center justify-center">
-                  <div className="text-gray-600 text-xs">📷</div>
+                <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
+                  <div className="text-gray-500 text-xs">📷</div>
                 </div>
               )}
               
@@ -176,7 +176,9 @@ export default function ItemCard({ item }) {
                   <div className="flex flex-col">
                     <span className="text-xs text-gray-600">Starting Bid</span>
                     <span className="font-bold text-gray-900">
-                      ${item.startingBid?.toLocaleString() || 'TBD'}
+                      {item.startingBid && typeof item.startingBid === 'number' 
+                        ? `$${item.startingBid.toLocaleString()}` 
+                        : 'Not Available'}
                     </span>
                   </div>
                 )}
