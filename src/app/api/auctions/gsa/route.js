@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Official GSA Auctions API configuration
 const GSA_API_BASE = process.env.GSA_API_BASE_URL || 'https://api.gsa.gov/assets/gsaauctions/v2';
 const GSA_API_KEY = process.env.GSA_API_KEY || 'rXyfDnTjMh3d0Zu56fNcMbHb5dgFBQrmzfTjZqq3';
