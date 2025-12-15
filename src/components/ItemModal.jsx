@@ -141,12 +141,12 @@ export default function ItemModal({ item, open, onOpenChange }) {
           {/* Key details cards */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Tag className="h-4 w-4 text-blue-400" />
-                  <span className="font-medium text-white">Asset Type</span>
+              <CardContent className="p-3 sm:p-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                  <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
+                  <span className="font-medium text-white text-xs sm:text-sm">Asset Type</span>
                 </div>
-                <Badge variant="secondary" className="bg-blue-500/20 text-blue-300">
+                <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 text-xs">
                   {getAssetTypeLabel(displayItem.assetType)}
                 </Badge>
               </CardContent>
@@ -154,15 +154,15 @@ export default function ItemModal({ item, open, onOpenChange }) {
 
             {displayItem.currentBid && (
               <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-green-400" />
-                    <span className="font-medium text-white">Current Bid</span>
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-400 flex-shrink-0" />
+                    <span className="font-medium text-white text-xs sm:text-sm">Current Bid</span>
                   </div>
-                  <p className="text-lg font-semibold text-green-600">{formatCurrency(displayItem.currentBid)}</p>
+                  <p className="text-base sm:text-lg font-semibold text-green-600">{formatCurrency(displayItem.currentBid)}</p>
                   {displayItem.bidCount > 0 && (
-                    <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                      <Users className="h-3 w-3" />
+                    <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1 mt-1">
+                      <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                       {displayItem.bidCount} bid{displayItem.bidCount !== 1 ? 's' : ''}
                     </p>
                   )}
@@ -172,28 +172,28 @@ export default function ItemModal({ item, open, onOpenChange }) {
 
             {displayItem.startingBid && (
               <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-blue-400" />
-                    <span className="font-medium text-white">Starting Bid</span>
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
+                    <span className="font-medium text-white text-xs sm:text-sm">Starting Bid</span>
                   </div>
-                  <p className="text-lg font-semibold text-white">{formatCurrency(displayItem.startingBid)}</p>
+                  <p className="text-base sm:text-lg font-semibold text-white">{formatCurrency(displayItem.startingBid)}</p>
                 </CardContent>
               </Card>
             )}
 
             {displayItem.auctionEndDate && (
               <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Clock className="h-4 w-4 text-blue-400" />
-                    <span className="font-medium text-white">Auction Ends</span>
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
+                    <span className="font-medium text-white text-xs sm:text-sm">Auction Ends</span>
                   </div>
-                  <p className="text-sm text-white">{formatDate(displayItem.auctionEndDate)}</p>
+                  <p className="text-xs sm:text-sm text-white break-words">{formatDate(displayItem.auctionEndDate)}</p>
                   {displayItem.auctionStatus && (
                     <Badge 
                       variant="outline" 
-                      className={`mt-1 text-xs ${
+                      className={`mt-1 text-[10px] sm:text-xs ${
                         displayItem.auctionStatus === 'Active' 
                           ? 'border-green-500 text-green-600' 
                           : 'border-gray-500 text-gray-600'
