@@ -24,7 +24,7 @@ export default function Home() {
   const fetchAuctions = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/auctions/gsa?status=active');
+      const response = await fetch('/api/auctions?status=active');
       const data = await response.json();
       setAuctions(data.items || []);
       setTotalItems(data.items?.length || 0);
@@ -127,7 +127,7 @@ export default function Home() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Active Government Auctions</h1>
           <p className="text-white/60">
-            Browse currently active government surplus auctions with live bidding
+            Browse currently active government surplus auctions from US (GSA) and Canada (GC Surplus)
           </p>
         </div>
 
