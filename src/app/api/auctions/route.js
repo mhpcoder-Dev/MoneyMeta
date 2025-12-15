@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { GET as getGSAAuctions } from './gsa/route';
+import { GET as getGCSurplusAuctions } from './gcsurplus/route';
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic';
@@ -10,28 +12,34 @@ export async function GET(request) {
     const status = searchParams.get('status') || 'all';
     const source = searchParams.get('source') || 'all'; // 'gsa', 'gcsurplus', 'all'
     
+    // Create request URL with status parameter
+    const baseUrl = request.url.split('?')[0];
+    const statusParam = status ? `?status=${status}` : '';
+    
     // Fetch from both sources in parallel
     const promises = [];
     
     if (source === 'all' || source === 'gsa') {
-      const gsaUrl = new URL('/api/auctions/gsa', request.url);
-      if (status) gsaUrl.searchParams.set('status', status);
+      const gsaRequest = new Request(`${baseUrl}/gsa${statusParam}`);
       promises.push(
-        fetch(gsaUrl.toString()).then(res => res.json()).catch(err => {
-          console.error('Error fetching GSA auctions:', err);
-          return { items: [], total: 0, source: 'gsa', status: 'error' };
-        })
+        getGSAAuctions(gsaRequest)
+          .then(res => res.json())
+          .catch(err => {
+            console.error('Error fetching GSA auctions:', err);
+            return { items: [], total: 0, source: 'gsa', status: 'error' };
+          })
       );
     }
     
     if (source === 'all' || source === 'gcsurplus') {
-      const gcsUrl = new URL('/api/auctions/gcsurplus', request.url);
-      if (status) gcsUrl.searchParams.set('status', status);
+      const gcsRequest = new Request(`${baseUrl}/gcsurplus${statusParam}`);
       promises.push(
-        fetch(gcsUrl.toString()).then(res => res.json()).catch(err => {
-          console.error('Error fetching Canadian auctions:', err);
-          return { items: [], total: 0, source: 'gcsurplus', status: 'error' };
-        })
+        getGCSurplusAuctions(gcsRequest)
+          .then(res => res.json())
+          .catch(err => {
+            console.error('Error fetching Canadian auctions:', err);
+            return { items: [], total: 0, source: 'gcsurplus', status: 'error' };
+          })
       );
     }
     

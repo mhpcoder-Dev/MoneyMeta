@@ -88,26 +88,28 @@ export default function ItemModal({ item, open, onOpenChange }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl text-white">{displayItem.title}</DialogTitle>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <DialogTitle className="text-lg sm:text-xl text-white pr-8 sm:pr-0 break-words">{displayItem.title}</DialogTitle>
             <Button
               variant="outline"
               size="sm"
               onClick={fetchLatestData}
               disabled={loading}
-              className="ml-2"
+              className="sm:ml-2 self-start sm:self-auto flex-shrink-0"
             >
               <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
-              {loading ? 'Updating...' : 'Refresh'}
+              <span className="hidden sm:inline">{loading ? 'Updating...' : 'Refresh'}</span>
             </Button>
           </div>
-          <DialogDescription className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            {displayItem.location}
+          <DialogDescription className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 flex-shrink-0" />
+              <span className="break-words">{displayItem.location}</span>
+            </div>
             {lastUpdated && (
-              <span className="text-xs text-muted-foreground ml-auto">
+              <span className="text-xs text-muted-foreground sm:ml-auto">
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </span>
             )}
@@ -117,10 +119,10 @@ export default function ItemModal({ item, open, onOpenChange }) {
         <div className="space-y-6">
           {/* Image and basic info */}
           {primaryImage && (
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-muted">
+            <div className="relative aspect-video sm:aspect-[16/9] w-full overflow-hidden rounded-lg bg-muted">
               {!imageLoaded && (
                 <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                  <div className="text-gray-400">Loading image...</div>
+                  <div className="text-gray-400 text-sm">Loading image...</div>
                 </div>
               )}
               <img
@@ -137,7 +139,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
           )}
 
           {/* Key details cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -208,9 +210,9 @@ export default function ItemModal({ item, open, onOpenChange }) {
           {/* Description */}
           {displayItem.description && (
             <div className="space-y-2">
-              <h3 className="font-semibold text-white">Description</h3>
+              <h3 className="font-semibold text-white text-base sm:text-lg">Description</h3>
               <div 
-                className="text-sm text-gray-300 prose prose-sm max-w-none prose-invert"
+                className="text-sm text-gray-300 prose prose-sm max-w-none prose-invert break-words overflow-wrap-anywhere"
                 dangerouslySetInnerHTML={{ __html: displayItem.description }}
               />
             </div>
@@ -219,8 +221,8 @@ export default function ItemModal({ item, open, onOpenChange }) {
           {/* Instructions */}
           {displayItem.instructions && (
             <div className="space-y-2">
-              <h3 className="font-semibold text-white">Instructions</h3>
-              <p className="text-sm text-gray-300 whitespace-pre-wrap">
+              <h3 className="font-semibold text-white text-base sm:text-lg">Instructions</h3>
+              <p className="text-sm text-gray-300 whitespace-pre-wrap break-words">
                 {displayItem.instructions}
               </p>
             </div>
@@ -228,8 +230,8 @@ export default function ItemModal({ item, open, onOpenChange }) {
 
           {/* Additional details */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-white">Additional Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <h3 className="font-semibold text-white text-base sm:text-lg">Additional Information</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
               {displayItem.agency && (
                 <div>
                   <span className="font-medium text-white">Agency:</span>
@@ -249,31 +251,31 @@ export default function ItemModal({ item, open, onOpenChange }) {
                 </div>
               )}
               {displayItem.propertyAddress && (
-                <div>
+                <div className="break-words">
                   <span className="font-medium text-white">Property Address:</span>
                   <p className="text-gray-300">{displayItem.propertyAddress}</p>
                 </div>
               )}
               {displayItem.contractOfficer && (
-                <div>
+                <div className="break-words">
                   <span className="font-medium text-white">Contract Officer:</span>
                   <p className="text-gray-300">{displayItem.contractOfficer}</p>
                 </div>
               )}
               {displayItem.coEmail && (
-                <div>
+                <div className="break-words">
                   <span className="font-medium text-white">Contact Email:</span>
-                  <p className="text-gray-300">{displayItem.coEmail}</p>
+                  <p className="text-gray-300 break-all">{displayItem.coEmail}</p>
                 </div>
               )}
               {displayItem.coPhone && (
-                <div>
+                <div className="break-words">
                   <span className="font-medium text-white">Contact Phone:</span>
                   <p className="text-gray-300">{displayItem.coPhone}</p>
                 </div>
               )}
               {displayItem.inspectionDate && (
-                <div>
+                <div className="break-words">
                   <span className="font-medium text-white">Inspection Date:</span>
                   <p className="text-gray-300">{formatDate(displayItem.inspectionDate)}</p>
                 </div>
@@ -282,11 +284,11 @@ export default function ItemModal({ item, open, onOpenChange }) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
             {displayItem.url && (
               <Button 
                 asChild
-                className="bg-navy hover:bg-navy/90 text-white"
+                className="bg-navy hover:bg-navy/90 text-white w-full sm:w-auto"
               >
                 <a href={displayItem.url} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-4 w-4 mr-2" />
@@ -295,7 +297,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
               </Button>
             )}
             {displayItem.inspectionUrl && (
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="w-full sm:w-auto">
                 <a href={displayItem.inspectionUrl} target="_blank" rel="noopener noreferrer">
                   <Building className="h-4 w-4 mr-2" />
                   Inspection Details

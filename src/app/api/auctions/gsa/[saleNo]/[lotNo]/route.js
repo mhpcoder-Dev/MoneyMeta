@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
 
+// Force dynamic rendering for this route - disable caching for large responses
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 // Official GSA Auctions API configuration
 const GSA_API_BASE = process.env.GSA_API_BASE_URL || 'https://api.gsa.gov/assets/gsaauctions/v2';
 const GSA_API_KEY = process.env.GSA_API_KEY || 'rXyfDnTjMh3d0Zu56fNcMbHb5dgFBQrmzfTjZqq3';
@@ -25,7 +30,7 @@ export async function GET(request, { params }) {
 
     // Fetch from GSA API with timeout handling
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
     
     try {
       const response = await fetch(apiUrl.toString(), {
@@ -34,7 +39,8 @@ export async function GET(request, { params }) {
           'User-Agent': 'MoneyMeta-AuctionExplorer/1.0 (+https://moneymeta.com)',
           'Cache-Control': 'no-cache'
         },
-        signal: controller.signal
+        signal: controller.signal,
+        cache: 'no-store'
       });
       
       clearTimeout(timeoutId);

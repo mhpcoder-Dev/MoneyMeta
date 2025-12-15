@@ -1,9 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, X } from 'lucide-react';
+import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
@@ -28,6 +29,8 @@ export default function SearchFilters({
   onAssetTypeToggle,
   availableCountries,
 }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const assetTypes = [
     'land', 'real-estate', 'vehicles', 'motorcycles', 
     'electronics', 'industrial', 'furniture', 'collectibles'
@@ -54,39 +57,54 @@ export default function SearchFilters({
         />
       </div>
 
-      {hasActiveFilters && (
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-white">Active filters:</span>
-          <Button
-            onClick={clearAllFilters}
-            size="sm"
-            variant="ghost"
-            className="h-8 text-white/80 hover:text-white hover:bg-white/10"
-          >
-            <X className="h-4 w-4 mr-1" />
-            Clear all
-          </Button>
-        </div>
-      )}
+      {/* Mobile: Show/Hide Filters Button */}
+      <div className="lg:hidden">
+        <Button
+          onClick={() => setIsExpanded(!isExpanded)}
+          variant="outline"
+          className="w-full justify-between bg-[#0f1429] border-white/20 text-white hover:bg-white/10"
+        >
+          <span>Filters {hasActiveFilters && `(${(selectedCountries.length + selectedAssetTypes.length)})`}</span>
+          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </Button>
+      </div>
 
-      {/* Asset type filters */}
-      <div className="space-y-2">
-        <h3 className="text-sm font-medium text-white">Asset Types</h3>
-        <div className="flex flex-wrap gap-2">
-          {assetTypes.map((type) => (
-            <Badge
-              key={type}
-              variant={selectedAssetTypes.includes(type) ? "default" : "outline"}
-              className={`cursor-pointer transition-colors ${
-                selectedAssetTypes.includes(type)
-                  ? "bg-[#d4ff00] text-[#0a0e27] hover:bg-[#d4ff00]/90 font-semibold"
-                  : "bg-transparent border-white/30 text-white/80 hover:bg-white/10 hover:text-white"
-              }`}
-              onClick={() => onAssetTypeToggle(type)}
+      {/* Filter Content - Always visible on desktop, collapsible on mobile */}
+      <div className={`space-y-4 ${isExpanded ? 'block' : 'hidden lg:block'}`}>
+        {hasActiveFilters && (
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-white">Active filters:</span>
+            <Button
+              onClick={clearAllFilters}
+              size="sm"
+              variant="ghost"
+              className="h-8 text-white/80 hover:text-white hover:bg-white/10"
             >
-              {getAssetTypeLabel(type)}
-            </Badge>
-          ))}
+              <X className="h-4 w-4 mr-1" />
+              Clear all
+            </Button>
+          </div>
+        )}
+
+        {/* Asset type filters */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium text-white">Asset Types</h3>
+          <div className="flex flex-wrap gap-2">
+            {assetTypes.map((type) => (
+              <Badge
+                key={type}
+                variant={selectedAssetTypes.includes(type) ? "default" : "outline"}
+                className={`cursor-pointer transition-colors ${
+                  selectedAssetTypes.includes(type)
+                    ? "bg-[#d4ff00] text-[#0a0e27] hover:bg-[#d4ff00]/90 font-semibold"
+                    : "bg-transparent border-white/30 text-white/80 hover:bg-white/10 hover:text-white"
+                }`}
+                onClick={() => onAssetTypeToggle(type)}
+              >
+                {getAssetTypeLabel(type)}
+              </Badge>
+            ))}
+          </div>
         </div>
       </div>
     </div>

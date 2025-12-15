@@ -100,4 +100,35 @@
   .live-badge {
     @apply bg-[#d4ff00] text-[#0a0e27] font-bold px-2 py-1 text-xs rounded flex items-center gap-1;
   }
+  
+  /* Hide scrollbar for horizontal scroll containers */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+  
+  /* Smooth scrolling for horizontal containers */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  /* Prevent horizontal scrolling on modal and body */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Word breaking for long text */
+  .break-words {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+  }
 }
