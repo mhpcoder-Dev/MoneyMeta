@@ -189,7 +189,7 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <div className="mb-6 hidden md:flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <div className="text-sm text-white/60">
                     Showing {startIndex + 1}-{Math.min(endIndex, filteredAuctions.length)} of {filteredAuctions.length} auction{filteredAuctions.length !== 1 ? 's' : ''}
                   </div>
