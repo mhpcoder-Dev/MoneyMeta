@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
+import { getGCSurplusAuctions, getGCSurplusAuctionCount } from '@/lib/db';
 
 // Force dynamic rendering for this route
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-
-// GCSurplus API configuration
-const GCSURPLUS_API_URL = 'https://gcsurplus-scraper.vercel.app/api/auctions';
 
 // Asset type classification helper for Canadian auctions
 function classifyAssetType(item) {
@@ -136,76 +134,38 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'all'; // 'active', 'all'
+    const skip = parseInt(searchParams.get('skip') || '0');
+    const limit = parseInt(searchParams.get('limit') || '100');
     
-    console.log('Fetching data from GCSurplus API:', GCSURPLUS_API_URL);
+    console.log('Fetching Canadian auctions from database with status:', status);
     
-    // Fetch from GCSurplus API
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    // Fetch from database instead of external API
+    const dbStatus = status === 'active' ? 'active' : null;
+    const dbItems = await getGCSurplusAuctions({ 
+      skip, 
+      limit, 
+      status: dbStatus 
+    });
     
-    try {
-      const response = await fetch(GCSURPLUS_API_URL, {
-        headers: {
-          'Accept': 'application/json',
-          'Cache-Control': 'no-cache'
-        },
-        signal: controller.signal
-      });
-      
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        throw new Error(`GCSurplus API error: ${response.status} ${response.statusText}`);
-      }
-      
-      const data = await response.json();
-      console.log('GCSurplus API response received:', Array.isArray(data) ? `${data.length} items` : typeof data);
-      
-      // Transform the data to our format
-      let items = [];
-      if (Array.isArray(data)) {
-        items = data.map(transformGCSurplusItem);
-      } else {
-        console.warn('Unexpected GCSurplus API response format:', data);
-        return NextResponse.json({
-          items: [],
-          total: 0,
-          source: 'gcsurplus',
-          status: 'error',
-          message: 'Unexpected API response format'
-        });
-      }
-      
-      // Filter by status if requested
-      if (status === 'active') {
-        items = items.filter(item => item.isActive);
-      }
-      
-      console.log(`Returning ${items.length} Canadian auction items`);
-      
-      return NextResponse.json({
-        items: items,
-        total: items.length,
-        source: 'gcsurplus',
-        status: 'success'
-      });
-      
-    } catch (fetchError) {
-      if (fetchError.name === 'AbortError') {
-        console.error('GCSurplus API request timeout');
-        return NextResponse.json({
-          items: [],
-          total: 0,
-          source: 'gcsurplus',
-          status: 'timeout',
-          message: 'Request timeout'
-        }, { status: 408 });
-      }
-      throw fetchError;
-    }
+    console.log(`Retrieved ${dbItems.length} items from database`);
+    
+    // Transform database items to frontend format
+    const items = dbItems.map(transformGCSurplusItem);
+    
+    // Get total count
+    const total = await getGCSurplusAuctionCount(dbStatus);
+    
+    console.log(`Returning ${items.length} Canadian auction items`);
+    
+    return NextResponse.json({
+      items: items,
+      total: total,
+      source: 'gcsurplus',
+      status: 'success'
+    });
     
   } catch (error) {
-    console.error('Error fetching Canadian auctions:', error);
+    console.error('Error fetching Canadian auctions from database:', error);
     return NextResponse.json({
       items: [],
       total: 0,

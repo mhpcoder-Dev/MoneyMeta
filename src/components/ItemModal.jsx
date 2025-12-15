@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Calendar, ExternalLink, Building, Tag, DollarSign, RefreshCw, Users, Clock } from 'lucide-react';
+import CommentSection from '@/components/CommentSection';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
@@ -170,18 +171,6 @@ export default function ItemModal({ item, open, onOpenChange }) {
               </Card>
             )}
 
-            {displayItem.startingBid && (
-              <Card>
-                <CardContent className="p-3 sm:p-4">
-                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                    <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
-                    <span className="font-medium text-white text-xs sm:text-sm">Starting Bid</span>
-                  </div>
-                  <p className="text-base sm:text-lg font-semibold text-white">{formatCurrency(displayItem.startingBid)}</p>
-                </CardContent>
-              </Card>
-            )}
-
             {displayItem.auctionEndDate && (
               <Card>
                 <CardContent className="p-3 sm:p-4">
@@ -284,7 +273,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-white/10">
             {displayItem.url && (
               <Button 
                 asChild
@@ -304,6 +293,11 @@ export default function ItemModal({ item, open, onOpenChange }) {
                 </a>
               </Button>
             )}
+          </div>
+
+          {/* Comment Section */}
+          <div className="pt-6 border-t border-white/10">
+            <CommentSection auctionId={displayItem.id} />
           </div>
         </div>
       </DialogContent>
