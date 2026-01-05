@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Calendar } from 'lucide-react';
+import { MapPin, Calendar, MessageCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import ItemModal from './ItemModal';
 
@@ -196,11 +196,12 @@ export default function ItemCard({ item }) {
                 )}
               </div>
               
-              {/* View Comments Link */}
+              {/* Comments Link */}
               <div className="pt-2 mt-2 border-t border-gray-200">
-                <span className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer">
-                  View comments
-                </span>
+                <div className="flex items-center gap-1.5 text-gray-700 hover:text-gray-900 cursor-pointer">
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-sm font-semibold">Comments</span>
+                </div>
               </div>
             </div>
           </CardContent>
