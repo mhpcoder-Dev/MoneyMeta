@@ -139,7 +139,7 @@ export default function ItemCard({ item }) {
               )}
               
               {/* LIVE Badge */}
-              {item.isActive && (
+              {item.isActive && timeRemaining !== 'Ended' && (
                 <div className="absolute top-3 right-3">
                   <div className="live-badge">
                     <span className="text-[10px]">⚡</span>

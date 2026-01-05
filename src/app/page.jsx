@@ -91,12 +91,25 @@ export default function Home() {
   };
 
   // Apply client-side country filter only (search and asset type are server-side)
-  const filteredAuctions = auctions.filter(auction => {
-    const country = getCountryFromAuction(auction);
-    const matchesCountry = selectedCountries.length === 0 || 
-      selectedCountries.includes(country);
-    return matchesCountry;
-  });
+  const filteredAuctions = auctions
+    .filter(auction => {
+      const country = getCountryFromAuction(auction);
+      const matchesCountry = selectedCountries.length === 0 || 
+        selectedCountries.includes(country);
+      return matchesCountry;
+    })
+    .sort((a, b) => {
+      // Check if auction has ended
+      const aEnded = a.auctionEndDate && new Date(a.auctionEndDate) < new Date();
+      const bEnded = b.auctionEndDate && new Date(b.auctionEndDate) < new Date();
+      
+      // Live auctions come before ended auctions
+      if (aEnded && !bEnded) return 1;
+      if (!aEnded && bEnded) return -1;
+      
+      // If both are same status, keep original order
+      return 0;
+    });
 
   const availableCountries = [...new Set(auctions.map(auction => getCountryFromAuction(auction)))].filter(Boolean);
 
