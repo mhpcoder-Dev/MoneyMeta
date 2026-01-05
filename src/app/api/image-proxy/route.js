@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// Force dynamic route
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 /**
  * Image proxy to optimize and cache external auction images
  * Reduces load times by proxying through Next.js edge
@@ -61,7 +65,10 @@ export async function GET(request) {
   } catch (error) {
     console.error('Image proxy error:', error);
     
-    // Return a placeholder image on error
-    return NextResponse.redirect('/images/placeholder-auction.jpg');
+    // Return error response instead of redirect
+    return NextResponse.json(
+      { error: 'Failed to fetch image' },
+      { status: 500 }
+    );
   }
 }
