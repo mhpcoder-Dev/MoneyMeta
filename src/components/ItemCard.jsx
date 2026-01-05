@@ -40,8 +40,8 @@ export default function ItemCard({ item }) {
         }
       },
       {
-        rootMargin: '50px', // Start loading 50px before the image enters viewport
-        threshold: 0.1
+        rootMargin: '200px', // Start loading earlier (200px before viewport)
+        threshold: 0.01
       }
     );
 
@@ -112,8 +112,8 @@ export default function ItemCard({ item }) {
               {shouldLoad ? (
                 <>
                   {!imageLoaded && (
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                      <div className="text-gray-500 text-sm">Loading...</div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
+                      <div className="text-gray-400 text-xs">Loading image...</div>
                     </div>
                   )}
                   <img
@@ -123,8 +123,13 @@ export default function ItemCard({ item }) {
                       imageLoaded ? 'opacity-100' : 'opacity-0'
                     }`}
                     loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
                     onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageLoaded(true)}
+                    onError={(e) => {
+                      setImageLoaded(true);
+                      e.target.src = '/images/placeholder-auction.jpg'; // Fallback image
+                    }}
                   />
                 </>
               ) : (
@@ -189,6 +194,13 @@ export default function ItemCard({ item }) {
                     <span className="text-xs font-medium">{timeRemaining}</span>
                   </div>
                 )}
+              </div>
+              
+              {/* View Comments Link */}
+              <div className="pt-2 mt-2 border-t border-gray-200">
+                <span className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer">
+                  View comments
+                </span>
               </div>
             </div>
           </CardContent>

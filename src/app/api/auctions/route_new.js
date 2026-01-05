@@ -4,12 +4,12 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// FastAPI backend URL - auto-detects if not set
-const FASTAPI_URL = process.env.FASTAPI_URL || process.env.NEXT_PUBLIC_FASTAPI_URL || 'http://localhost:8000';
+// FastAPI backend URL
+const FASTAPI_URL = process.env.FASTAPI_URL || 'http://localhost:8000';
 
 /**
  * Unified auctions endpoint - proxies to FastAPI backend
- * FastAPI handles all data fetching, caching, and database management
+ * FastAPI now handles all data fetching and caching
  */
 export async function GET(request) {
   try {
@@ -39,17 +39,16 @@ export async function GET(request) {
       headers: {
         'Accept': 'application/json',
       },
-      cache: 'no-store' // Always get fresh data from FastAPI
+      next: { revalidate: 300 } // Cache for 5 minutes
     });
     
     if (!response.ok) {
-      console.error(`FastAPI error: ${response.status} ${response.statusText}`);
-      throw new Error(`FastAPI backend error: ${response.status}`);
+      throw new Error(`FastAPI error: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json();
     
-    // Transform items to frontend format if needed
+    // Transform to frontend format if needed
     const items = data.items.map(item => transformToFrontendFormat(item));
     
     return NextResponse.json({
@@ -69,14 +68,13 @@ export async function GET(request) {
   } catch (error) {
     console.error('Error fetching auctions from FastAPI:', error);
     
-    // Return error response with helpful hint
+    // Return error response
     return NextResponse.json({
       items: [],
       total: 0,
       sources: {},
       status: 'error',
-      message: error.message || 'Failed to fetch auctions from backend',
-      hint: `Make sure FastAPI backend is running on ${FASTAPI_URL}. Run: cd gcsurplus-scraper && python run_with_scheduler.py`
+      message: error.message || 'Failed to fetch auctions from backend'
     }, { status: 500 });
   }
 }

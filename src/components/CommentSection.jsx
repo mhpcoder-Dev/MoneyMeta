@@ -117,7 +117,7 @@ export default function CommentSection({ auctionId }) {
                 value={authorName}
                 onChange={(e) => setAuthorName(e.target.value)}
                 maxLength={50}
-                className="w-full px-3 py-2 text-sm bg-[#0f1429] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-transparent"
+                className="w-full px-3 py-2 text-sm bg-[#252b4a] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-transparent"
               />
             </div>
 
@@ -129,7 +129,7 @@ export default function CommentSection({ auctionId }) {
                 onChange={(e) => setNewComment(e.target.value)}
                 maxLength={1000}
                 rows={3}
-                className="w-full px-3 py-2 text-sm bg-[#0f1429] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-transparent resize-none"
+                className="w-full px-3 py-2 text-sm bg-[#252b4a] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-transparent resize-none"
               />
               <div className="flex items-center justify-between mt-1">
                 <span className="text-xs text-white/40">
@@ -148,7 +148,7 @@ export default function CommentSection({ auctionId }) {
               className="w-full sm:w-auto bg-[#d4ff00] hover:bg-[#d4ff00]/90 text-[#0a0e27] font-semibold"
             >
               <Send className="h-4 w-4 mr-2" />
-              {submitting ? 'Posting...' : 'Post Comment'}
+              {submitting ? 'Posting...' : 'Comment'}
             </Button>
           </form>
         </CardContent>
@@ -162,15 +162,7 @@ export default function CommentSection({ auctionId }) {
               <p className="text-sm text-white/60 text-center">Loading comments...</p>
             </CardContent>
           </Card>
-        ) : comments.length === 0 ? (
-          <Card className="bg-[#1a1f3a] border-white/10">
-            <CardContent className="p-4">
-              <p className="text-sm text-white/60 text-center">
-                No comments yet. Be the first to comment!
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
+        ) : comments.length > 0 ? (
           comments.map((comment) => (
             <Card key={comment.id} className="bg-[#1a1f3a] border-white/10">
               <CardContent className="p-4">
@@ -199,7 +191,7 @@ export default function CommentSection({ auctionId }) {
               </CardContent>
             </Card>
           ))
-        )}
+        ) : null}
       </div>
     </div>
   );

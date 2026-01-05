@@ -31,6 +31,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Fetch latest bid data when modal opens
   useEffect(() => {

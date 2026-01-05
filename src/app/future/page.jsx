@@ -5,6 +5,7 @@ import ItemCard from '@/components/ItemCard';
 import SearchFilters from '@/components/SearchFilters';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const ITEMS_PER_PAGE = 24; // Number of items to show per page
 
@@ -16,38 +17,57 @@ export default function Future() {
   const [selectedAssetTypes, setSelectedAssetTypes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Debounce search query to reduce API calls while typing
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
     fetchAuctions();
-  }, []);
+  }, [currentPage, selectedCountries, selectedAssetTypes, debouncedSearchQuery]);
 
   const fetchAuctions = async () => {
     try {
-      setLoading(true);
-      const response = await fetch('/api/auctions/gsa?status=scheduled');
+      setLoading(currentPage === 1);
+      setIsLoadingMore(currentPage > 1);
+      
+      // Build query parameters for server-side filtering and pagination
+      const params = new URLSearchParams({
+        skip: (currentPage - 1) * ITEMS_PER_PAGE,
+        limit: ITEMS_PER_PAGE,
+      });
+      
+      // Include both scheduled (GSA) and upcoming (Treasury) auctions
+      // Note: Backend will handle filtering by these statuses
+      params.append('status', 'scheduled');
+      params.append('status', 'upcoming');
+      
+      // Add filters
+      if (debouncedSearchQuery) {
+        params.append('search', debouncedSearchQuery);
+      }
+      if (selectedAssetTypes.length > 0) {
+        params.append('asset_type', selectedAssetTypes.join(','));
+      }
+      
+      const response = await fetch(`/api/auctions?${params.toString()}`);
       const data = await response.json();
+      
       setAuctions(data.items || []);
-      setTotalItems(data.items?.length || 0);
-      setCurrentPage(1); // Reset to first page when new data is fetched
+      setTotalItems(data.total || 0);
     } catch (error) {
       console.error('Error fetching future auctions:', error);
     } finally {
       setLoading(false);
+      setIsLoadingMore(false);
     }
   };
 
+  // Apply client-side country filter only (search and asset type are server-side)
   const filteredAuctions = auctions.filter(auction => {
-    const matchesSearch = !searchQuery || 
-      auction.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      auction.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
     const matchesCountry = selectedCountries.length === 0 || 
       selectedCountries.some(country => auction.location.includes(country));
-    
-    const matchesAssetType = selectedAssetTypes.length === 0 || 
-      selectedAssetTypes.includes(auction.assetType);
-
-    return matchesSearch && matchesCountry && matchesAssetType;
+    return matchesCountry;
   });
 
   const availableCountries = [...new Set(auctions.map(auction => 
@@ -55,33 +75,32 @@ export default function Future() {
   ))].filter(Boolean);
 
   const handleCountryToggle = (country) => {
+    setCurrentPage(1); // Reset to first page when filters change
     setSelectedCountries(prev => 
       prev.includes(country) 
         ? prev.filter(c => c !== country)
         : [...prev, country]
     );
-    setCurrentPage(1); // Reset to first page when filters change
   };
 
   const handleAssetTypeToggle = (assetType) => {
+    setCurrentPage(1); // Reset to first page when filters change
     setSelectedAssetTypes(prev => 
       prev.includes(assetType) 
         ? prev.filter(t => t !== assetType)
         : [...prev, assetType]
     );
-    setCurrentPage(1); // Reset to first page when filters change
   };
 
   const handleSearchChange = (query) => {
-    setSearchQuery(query);
     setCurrentPage(1); // Reset to first page when search changes
+    setSearchQuery(query);
   };
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredAuctions.length / ITEMS_PER_PAGE);
+  // Calculate pagination using server-side total
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentItems = filteredAuctions.slice(startIndex, endIndex);
+  const currentItems = filteredAuctions; // Already paginated from server
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -157,7 +176,7 @@ export default function Future() {
             <>
               <div className="mb-6 flex items-center justify-between">
                 <div className="text-sm text-white/60">
-                  Showing {startIndex + 1}-{Math.min(endIndex, filteredAuctions.length)} of {filteredAuctions.length} scheduled auction{filteredAuctions.length !== 1 ? 's' : ''}
+                  Showing {startIndex + 1}-{Math.min(startIndex + filteredAuctions.length, totalItems)} of {totalItems} scheduled auction{totalItems !== 1 ? 's' : ''}
                 </div>
                 {totalPages > 1 && (
                   <div className="text-sm text-white/60">
@@ -166,7 +185,12 @@ export default function Future() {
                 )}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8 relative">
+                {isLoadingMore && (
+                  <div className="absolute inset-0 bg-[#0a0e27]/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4ff00]"></div>
+                  </div>
+                )}
                 {currentItems.map(auction => (
                   <ItemCard key={auction.id} item={auction} />
                 ))}

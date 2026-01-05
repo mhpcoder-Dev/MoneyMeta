@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// FastAPI backend URL - auto-detects if not set
-const FASTAPI_URL = process.env.FASTAPI_URL || process.env.NEXT_PUBLIC_FASTAPI_URL || 'http://localhost:8000';
+// FastAPI backend URL
+const FASTAPI_URL = process.env.FASTAPI_URL || 'http://localhost:8001';
 
 /**
  * Unified auctions endpoint - proxies to FastAPI backend
@@ -69,14 +69,14 @@ export async function GET(request) {
   } catch (error) {
     console.error('Error fetching auctions from FastAPI:', error);
     
-    // Return error response with helpful hint
+    // Return error response
     return NextResponse.json({
       items: [],
       total: 0,
       sources: {},
       status: 'error',
       message: error.message || 'Failed to fetch auctions from backend',
-      hint: `Make sure FastAPI backend is running on ${FASTAPI_URL}. Run: cd gcsurplus-scraper && python run_with_scheduler.py`
+      hint: 'Make sure FastAPI backend is running on ' + (process.env.FASTAPI_URL || 'http://localhost:8001')
     }, { status: 500 });
   }
 }
