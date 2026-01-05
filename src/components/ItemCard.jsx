@@ -199,7 +199,7 @@ export default function ItemCard({ item }) {
               {/* Comments Link */}
               <div className="pt-2 mt-2 border-t border-gray-200">
                 <div className="flex items-center gap-1.5 text-gray-700 hover:text-gray-900 cursor-pointer">
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-5 w-5" />
                   <span className="text-sm font-semibold">Comments</span>
                 </div>
               </div>
