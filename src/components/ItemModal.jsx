@@ -166,9 +166,6 @@ export default function ItemModal({ item, open, onOpenChange }) {
                     <span className="font-medium text-white text-xs sm:text-sm">Current Bid</span>
                   </div>
                   <p className="text-base sm:text-lg font-semibold text-gray-400">No Bids Yet</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
-                    Be the first to bid
-                  </p>
                 </CardContent>
               </Card>
             )}
