@@ -131,4 +131,20 @@
   .overflow-wrap-anywhere {
     overflow-wrap: anywhere;
   }
+
+  /* Remove all background highlighting and fix black text in HTML descriptions */
+  .prose *[style*="background-color"],
+  .prose *[style*="background"],
+  .prose mark {
+    background-color: transparent !important;
+    background: none !important;
+  }
+  
+  /* Only override black/dark text colors, preserve blue and other intentional colors */
+  .prose *[style*="color: rgb(0,0,0)"],
+  .prose *[style*="color:rgb(0,0,0)"],
+  .prose *[style*="color: #000"],
+  .prose *[style*="color:#000"] {
+    color: rgb(209, 213, 219) !important;
+  }
 }

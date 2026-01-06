@@ -127,18 +127,15 @@ export default function CommentSection({ auctionId }) {
                 placeholder="Write your comment..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                maxLength={1000}
+                maxLength={5000}
                 rows={3}
                 className="w-full px-3 py-2 text-sm bg-[#252b4a] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-transparent resize-none"
               />
-              <div className="flex items-center justify-between mt-1">
-                <span className="text-xs text-white/40">
-                  {newComment.length}/1000
-                </span>
-                {error && (
+              {error && (
+                <div className="mt-1">
                   <span className="text-xs text-red-500">{error}</span>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Submit Button */}

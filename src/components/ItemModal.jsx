@@ -141,21 +141,9 @@ export default function ItemModal({ item, open, onOpenChange }) {
           )}
 
           {/* Key details cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <Card>
-              <CardContent className="p-3 sm:p-4">
-                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                  <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
-                  <span className="font-medium text-white text-xs sm:text-sm">Asset Type</span>
-                </div>
-                <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 text-xs">
-                  {getAssetTypeLabel(displayItem.assetType)}
-                </Badge>
-              </CardContent>
-            </Card>
-
-            {displayItem.currentBid && (
-              <Card>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            {displayItem.currentBid ? (
+              <Card className="bg-[#1e2642] border-white/20">
                 <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                     <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-400 flex-shrink-0" />
@@ -170,10 +158,23 @@ export default function ItemModal({ item, open, onOpenChange }) {
                   )}
                 </CardContent>
               </Card>
+            ) : (
+              <Card className="bg-[#1e2642] border-white/20">
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-400 flex-shrink-0" />
+                    <span className="font-medium text-white text-xs sm:text-sm">Current Bid</span>
+                  </div>
+                  <p className="text-base sm:text-lg font-semibold text-gray-400">No Bids Yet</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
+                    Be the first to bid
+                  </p>
+                </CardContent>
+              </Card>
             )}
 
             {displayItem.auctionEndDate && (
-              <Card>
+              <Card className="bg-[#1e2642] border-white/20">
                 <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                     <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-400 flex-shrink-0" />
