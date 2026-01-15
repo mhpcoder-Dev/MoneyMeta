@@ -85,20 +85,30 @@ export async function GET(request) {
  * Transform database format to frontend format
  */
 function transformToFrontendFormat(item) {
-  // Build location string
+  // Build location string from new column names (city, region, country)
   let location = '';
-  if (item.location_city || item.location_province || item.location_state) {
+  if (item.city || item.region) {
     const parts = [
-      item.location_city,
-      item.location_province || item.location_state
+      item.city,
+      item.region
     ].filter(Boolean);
     
     location = parts.join(', ');
-    if (item.source === 'gcsurplus') {
-      location += ', Canada';
-    } else if (item.source === 'gsa') {
-      location += ', USA';
+    
+    // Add country if available
+    if (item.country) {
+      location += `, ${item.country}`;
+    } else {
+      // Fallback to source-based country
+      if (item.source === 'gcsurplus') {
+        location += ', Canada';
+      } else if (item.source === 'gsa' || item.source === 'treasury') {
+        location += ', USA';
+      }
     }
+  } else if (item.country) {
+    // If only country is available
+    location = item.country;
   }
   
   return {
@@ -107,6 +117,10 @@ function transformToFrontendFormat(item) {
     description: item.description || '',
     location: location || 'Location TBD',
     saleLocation: location || 'Location TBD',
+    propertyAddress: item.address_raw || location || '',
+    propertyCity: item.city || '',
+    propertyState: item.region || '',
+    propertyZip: item.postal_code || '',
     startingBid: item.minimum_bid,
     currentBid: item.current_bid,
     imageUrl: item.image_urls && item.image_urls.length > 0 ? item.image_urls[0] : null,
@@ -138,7 +152,6 @@ function transformToFrontendFormat(item) {
     propertyZip: item.extra_data?.property_zip,
     instructions: item.extra_data?.instructions,
     quantity: item.quantity,
-    nextMinimumBid: item.next_minimum_bid,
-    timeRemaining: item.time_remaining
+    nextMinimumBid: item.next_minimum_bid
   };
 }

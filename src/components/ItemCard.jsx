@@ -26,6 +26,7 @@ const getAssetTypeLabel = (assetType) => {
 
 export default function ItemCard({ item }) {
   const [showModal, setShowModal] = useState(false);
+  const [scrollToComments, setScrollToComments] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
   const imgRef = useRef();
@@ -153,18 +154,18 @@ export default function ItemCard({ item }) {
           <CardContent className="p-4 flex-grow">
             <div className="space-y-3">
               {/* Agency/Source */}
-              <div className="text-xs text-gray-600 font-medium">
+              <div className="text-xs text-gray-600 font-medium text-center">
                 {item.agency || 'Government Auction'}
               </div>
               
               {/* Location */}
-              <div className="flex items-center gap-2 text-gray-700">
+              <div className="flex items-center justify-center gap-2 text-gray-700">
                 <MapPin className="h-3 w-3 flex-shrink-0" />
                 <span className="text-xs truncate">{item.location}</span>
               </div>
 
               {/* Title */}
-              <CardTitle className="text-base leading-tight line-clamp-2 text-gray-900 font-semibold">
+              <CardTitle className="text-base leading-tight line-clamp-2 text-gray-900 font-semibold text-center">
                 {item.title}
               </CardTitle>
               
@@ -198,7 +199,14 @@ export default function ItemCard({ item }) {
               
               {/* Comments Link */}
               <div className="pt-2 mt-2 border-t border-gray-200">
-                <div className="flex items-center gap-1.5 text-gray-700 hover:text-gray-900 cursor-pointer">
+                <div 
+                  className="flex items-center gap-1.5 text-gray-700 hover:text-gray-900 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setScrollToComments(true);
+                    setShowModal(true);
+                  }}
+                >
                   <MessageCircle className="h-5 w-5" />
                   <span className="text-sm font-semibold">Comments</span>
                 </div>
@@ -208,7 +216,15 @@ export default function ItemCard({ item }) {
         </article>
       </Card>
 
-      <ItemModal item={item} open={showModal} onOpenChange={setShowModal} />
+      <ItemModal 
+        item={item} 
+        open={showModal} 
+        onOpenChange={(open) => {
+          setShowModal(open);
+          if (!open) setScrollToComments(false);
+        }}
+        scrollToComments={scrollToComments}
+      />
     </>
   );
 }

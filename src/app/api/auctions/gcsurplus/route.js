@@ -53,25 +53,6 @@ function classifyAssetType(item) {
   return 'other';
 }
 
-// Calculate auction end date from time_remaining
-function calculateEndDate(timeRemaining) {
-  if (!timeRemaining) return null;
-  
-  const now = new Date();
-  const match = timeRemaining.match(/(\d+)\s*days?\s*(\d+)?\s*hours?\s*(\d+)?\s*minutes?/i);
-  
-  if (match) {
-    const days = parseInt(match[1]) || 0;
-    const hours = parseInt(match[2]) || 0;
-    const minutes = parseInt(match[3]) || 0;
-    
-    const endDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000);
-    return endDate.toISOString();
-  }
-  
-  return null;
-}
-
 // Transform GCSurplus API data to our format
 function transformGCSurplusItem(item) {
   let imageUrls = [];
@@ -100,7 +81,7 @@ function transformGCSurplusItem(item) {
     images: imageUrls,
     url: `https://www.gcsurplus.ca/mn-eng.cfm?snc=wfsav&sc=enc-bid&srchtype=&so=DESC&rpp=50&vndsld=0&sf=ferm-clos&lci=&lco=&srchauct=4&kws=&pm=&aucdate=0&aucstatus=0&sr=1&sc=desc&kws=&ltnbr=${item.lot_number}`,
     auctionStartDate: item.created_at || null,
-    auctionEndDate: calculateEndDate(item.time_remaining) || item.closing_date,
+    auctionEndDate: item.closing_date,
     inspectionDate: null,
     inspectionUrl: null,
     category: item.title || 'General',
@@ -125,8 +106,7 @@ function transformGCSurplusItem(item) {
     propertyZip: null,
     instructions: null,
     quantity: item.quantity,
-    nextMinimumBid: item.next_minimum_bid,
-    timeRemaining: item.time_remaining
+    nextMinimumBid: item.next_minimum_bid
   };
 }
 

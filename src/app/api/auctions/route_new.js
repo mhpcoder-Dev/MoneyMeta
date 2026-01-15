@@ -136,7 +136,6 @@ function transformToFrontendFormat(item) {
     propertyZip: item.extra_data?.property_zip,
     instructions: item.extra_data?.instructions,
     quantity: item.quantity,
-    nextMinimumBid: item.next_minimum_bid,
-    timeRemaining: item.time_remaining
+    nextMinimumBid: item.next_minimum_bid
   };
 }

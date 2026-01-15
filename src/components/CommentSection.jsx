@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle, Send, User } from 'lucide-react';
+import API_ENDPOINTS from '@/lib/api-config';
 
 export default function CommentSection({ auctionId }) {
   const [comments, setComments] = useState([]);
@@ -22,7 +23,7 @@ export default function CommentSection({ auctionId }) {
   const fetchComments = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/comments?auctionId=${encodeURIComponent(auctionId)}`);
+      const response = await fetch(API_ENDPOINTS.COMMENT_BY_AUCTION(auctionId));
       const data = await response.json();
       
       if (response.ok) {
@@ -49,13 +50,13 @@ export default function CommentSection({ auctionId }) {
       setSubmitting(true);
       setError('');
       
-      const response = await fetch('/api/comments', {
+      const response = await fetch(API_ENDPOINTS.COMMENTS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          auctionId,
+          auction_id: auctionId,
           author: authorName.trim() || 'Anonymous',
           text: newComment.trim(),
         }),
@@ -64,11 +65,11 @@ export default function CommentSection({ auctionId }) {
       const data = await response.json();
 
       if (response.ok) {
-        setComments([data.comment, ...comments]);
+        setComments([data, ...comments]);
         setNewComment('');
         setAuthorName('');
       } else {
-        setError(data.error || 'Failed to post comment');
+        setError(data.detail || 'Failed to post comment');
       }
     } catch (error) {
       console.error('Error posting comment:', error);

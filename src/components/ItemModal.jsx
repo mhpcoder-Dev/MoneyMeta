@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,12 +26,14 @@ const getAssetTypeLabel = (assetType) => {
   return labels[assetType] || 'Other';
 };
 
-export default function ItemModal({ item, open, onOpenChange }) {
+export default function ItemModal({ item, open, onOpenChange, scrollToComments }) {
   const [latestData, setLatestData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const commentSectionRef = useRef(null);
+  const dialogContentRef = useRef(null);
 
   // Fetch latest bid data when modal opens
   useEffect(() => {
@@ -40,6 +42,35 @@ export default function ItemModal({ item, open, onOpenChange }) {
       setImageLoaded(false); // Reset image loading state
     }
   }, [open, item?.saleNo, item?.lotNo]);
+
+  // Scroll to comments when modal opens with scrollToComments flag
+  useEffect(() => {
+    if (open && scrollToComments) {
+      // Wait for modal animation to complete before scrolling
+      setTimeout(() => {
+        if (commentSectionRef.current) {
+          // Get the scrollable parent (the modal content)
+          const scrollableParent = commentSectionRef.current.closest('[class*="overflow-y-auto"]');
+          
+          if (scrollableParent) {
+            const commentTop = commentSectionRef.current.offsetTop;
+            const parentHeight = scrollableParent.clientHeight;
+            const scrollPosition = commentTop - 100; // 100px from top
+            
+            console.log('Scrollable parent found:', scrollableParent);
+            console.log('Scrolling to position:', scrollPosition);
+            
+            scrollableParent.scrollTo({
+              top: scrollPosition,
+              behavior: 'smooth'
+            });
+          } else {
+            console.log('No scrollable parent found');
+          }
+        }
+      }, 500);
+    }
+  }, [open, scrollToComments]);
 
   const fetchLatestData = async () => {
     if (!item?.saleNo || !item?.lotNo) return;
@@ -244,24 +275,6 @@ export default function ItemModal({ item, open, onOpenChange }) {
                   <p className="text-gray-300">{displayItem.propertyAddress}</p>
                 </div>
               )}
-              {displayItem.contractOfficer && (
-                <div className="break-words">
-                  <span className="font-medium text-white">Contract Officer:</span>
-                  <p className="text-gray-300">{displayItem.contractOfficer}</p>
-                </div>
-              )}
-              {displayItem.coEmail && (
-                <div className="break-words">
-                  <span className="font-medium text-white">Contact Email:</span>
-                  <p className="text-gray-300 break-all">{displayItem.coEmail}</p>
-                </div>
-              )}
-              {displayItem.coPhone && (
-                <div className="break-words">
-                  <span className="font-medium text-white">Contact Phone:</span>
-                  <p className="text-gray-300">{displayItem.coPhone}</p>
-                </div>
-              )}
               {displayItem.inspectionDate && (
                 <div className="break-words">
                   <span className="font-medium text-white">Inspection Date:</span>
@@ -295,7 +308,7 @@ export default function ItemModal({ item, open, onOpenChange }) {
           </div>
 
           {/* Comment Section */}
-          <div className="pt-6 border-t border-white/10">
+          <div ref={commentSectionRef} className="pt-6 border-t border-white/10">
             <CommentSection auctionId={displayItem.id} />
           </div>
         </div>
