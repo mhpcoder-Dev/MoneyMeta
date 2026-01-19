@@ -6,6 +6,8 @@ import SearchFilters from '@/components/SearchFilters';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useDebounce } from '@/hooks/useDebounce';
+import { API_ENDPOINTS } from '@/lib/api-config';
+import { auctionService } from '@/services';
 
 const ITEMS_PER_PAGE = 24; // Number of items to show per page
 
@@ -25,13 +27,20 @@ const getAssetTypeLabel = (assetType) => {
 
 // Extract country from auction location
 const getCountryFromAuction = (auction) => {
+  // Safety check: ensure location exists and is a string
+  if (!auction.location || typeof auction.location !== 'string') {
+    return auction.source === 'gcsurplus' ? 'Canada' : 'United States';
+  }
+
   const locationParts = auction.location.split(',').map(part => part.trim());
   const usStateCodes = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
   const lastPart = locationParts[locationParts.length - 1];
   
   // If source is GSA or location ends with US state code, it's United States
-  if (auction.source === 'GSA' || usStateCodes.includes(lastPart)) {
+  if (auction.source === 'gsa' || usStateCodes.includes(lastPart)) {
     return 'United States';
+  } else if (auction.source === 'gcsurplus') {
+    return 'Canada';
   } else if (lastPart && lastPart.length > 2) {
     // If last part is longer than 2 chars, it's likely a country name
     return lastPart;
@@ -62,26 +71,17 @@ export default function Home() {
       setLoading(currentPage === 1);
       setIsLoadingMore(currentPage > 1);
       
-      // Build query parameters for server-side filtering and pagination
-      const params = new URLSearchParams({
+      // Use auction service instead of direct fetch
+      const data = await auctionService.getAll({
         status: 'active',
         skip: (currentPage - 1) * ITEMS_PER_PAGE,
-        limit: ITEMS_PER_PAGE
+        limit: ITEMS_PER_PAGE,
+        search: debouncedSearchQuery || null,
+        assetTypes: selectedAssetTypes.length > 0 ? selectedAssetTypes : null,
       });
       
-      // Add filters - use debounced search query
-      if (debouncedSearchQuery) {
-        params.append('search', debouncedSearchQuery);
-      }
-      if (selectedAssetTypes.length > 0) {
-        params.append('asset_type', selectedAssetTypes.join(','));
-      }
-      
-      const response = await fetch(`/api/auctions?${params.toString()}`);
-      const data = await response.json();
-      
       setAuctions(data.items || []);
-      setTotalItems(data.total || 0);
+      setTotalItems(data.pagination?.total || 0);
     } catch (error) {
       console.error('Error fetching auctions:', error);
     } finally {

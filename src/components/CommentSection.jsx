@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle, Send, User } from 'lucide-react';
 import API_ENDPOINTS from '@/lib/api-config';
+import { commentService } from '@/services';
 
 export default function CommentSection({ auctionId }) {
   const [comments, setComments] = useState([]);
@@ -23,14 +24,8 @@ export default function CommentSection({ auctionId }) {
   const fetchComments = async () => {
     try {
       setLoading(true);
-      const response = await fetch(API_ENDPOINTS.COMMENT_BY_AUCTION(auctionId));
-      const data = await response.json();
-      
-      if (response.ok) {
-        setComments(data.comments || []);
-      } else {
-        console.error('Failed to fetch comments:', data.error);
-      }
+      const data = await commentService.getByAuction(auctionId);
+      setComments(data.comments || []);
     } catch (error) {
       console.error('Error fetching comments:', error);
     } finally {
@@ -50,30 +45,18 @@ export default function CommentSection({ auctionId }) {
       setSubmitting(true);
       setError('');
       
-      const response = await fetch(API_ENDPOINTS.COMMENTS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          auction_id: auctionId,
-          author: authorName.trim() || 'Anonymous',
-          text: newComment.trim(),
-        }),
+      const data = await commentService.create({
+        auction_id: auctionId,
+        author: authorName.trim() || 'Anonymous',
+        text: newComment.trim(),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setComments([data, ...comments]);
-        setNewComment('');
-        setAuthorName('');
-      } else {
-        setError(data.detail || 'Failed to post comment');
-      }
+      setComments([data, ...comments]);
+      setNewComment('');
+      setAuthorName('');
     } catch (error) {
       console.error('Error posting comment:', error);
-      setError('Failed to post comment');
+      setError(error.message || 'Failed to post comment');
     } finally {
       setSubmitting(false);
     }

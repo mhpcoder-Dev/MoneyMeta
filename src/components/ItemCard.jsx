@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Calendar, MessageCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import ItemModal from './ItemModal';
+import { formatLocation } from '@/utils/locationUtils';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
@@ -84,7 +85,7 @@ export default function ItemCard({ item }) {
     return `Ending in ${minutes}m`;
   };
 
-  const primaryImage = item.images?.[0] || item.imageUrl;
+  const primaryImage = item.images?.[0] || item.imageUrl || item.image_urls;
   const timeRemaining = getTimeRemaining();
 
   return (
@@ -161,7 +162,7 @@ export default function ItemCard({ item }) {
               {/* Location */}
               <div className="flex items-center justify-center gap-2 text-gray-700">
                 <MapPin className="h-3 w-3 flex-shrink-0" />
-                <span className="text-xs truncate">{item.location}</span>
+                <span className="text-xs truncate">{formatLocation(item.location)}</span>
               </div>
 
               {/* Title */}

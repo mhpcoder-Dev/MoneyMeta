@@ -6,6 +6,8 @@ import SearchFilters from '@/components/SearchFilters';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useDebounce } from '@/hooks/useDebounce';
+import { API_ENDPOINTS } from '@/lib/api-config';
+import { auctionService } from '@/services';
 
 const ITEMS_PER_PAGE = 24; // Number of items to show per page
 
@@ -31,30 +33,18 @@ export default function Future() {
       setLoading(currentPage === 1);
       setIsLoadingMore(currentPage > 1);
       
-      // Build query parameters for server-side filtering and pagination
-      const params = new URLSearchParams({
+      // Use auction service for future auctions
+      // Backend uses 'upcoming' status for future auctions
+      const data = await auctionService.getAll({
+        status: 'upcoming',
         skip: (currentPage - 1) * ITEMS_PER_PAGE,
         limit: ITEMS_PER_PAGE,
+        search: debouncedSearchQuery || null,
+        assetTypes: selectedAssetTypes.length > 0 ? selectedAssetTypes : null,
       });
       
-      // Include both scheduled (GSA) and upcoming (Treasury) auctions
-      // Note: Backend will handle filtering by these statuses
-      params.append('status', 'scheduled');
-      params.append('status', 'upcoming');
-      
-      // Add filters
-      if (debouncedSearchQuery) {
-        params.append('search', debouncedSearchQuery);
-      }
-      if (selectedAssetTypes.length > 0) {
-        params.append('asset_type', selectedAssetTypes.join(','));
-      }
-      
-      const response = await fetch(`/api/auctions?${params.toString()}`);
-      const data = await response.json();
-      
       setAuctions(data.items || []);
-      setTotalItems(data.total || 0);
+      setTotalItems(data.pagination?.total || 0);
     } catch (error) {
       console.error('Error fetching future auctions:', error);
     } finally {
@@ -66,13 +56,15 @@ export default function Future() {
   // Apply client-side country filter only (search and asset type are server-side)
   const filteredAuctions = auctions.filter(auction => {
     const matchesCountry = selectedCountries.length === 0 || 
-      selectedCountries.some(country => auction.location.includes(country));
+      selectedCountries.some(country => auction.location && typeof auction.location === 'string' && auction.location.includes(country));
     return matchesCountry;
   });
 
-  const availableCountries = [...new Set(auctions.map(auction => 
-    auction.location.split(',')[auction.location.split(',').length - 1].trim()
-  ))].filter(Boolean);
+  const availableCountries = [...new Set(auctions.map(auction => {
+    if (!auction.location || typeof auction.location !== 'string') return null;
+    const parts = auction.location.split(',');
+    return parts[parts.length - 1].trim();
+  }))].filter(Boolean);
 
   const handleCountryToggle = (country) => {
     setCurrentPage(1); // Reset to first page when filters change
