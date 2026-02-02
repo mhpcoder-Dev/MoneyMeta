@@ -33,13 +33,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div className="col-span-1">
-            <h2 className="text-2xl font-bold gradient-text mb-4">moneymeta</h2>
-            <p className="text-white/60 text-sm mb-4">
+            <h2 className="text-2xl font-bold gradient-text mb-4">GoodsAroundTheWorld</h2>
+            {/* <p className="text-white/60 text-sm mb-4">
               Discover active government auctions and surplus sales from official sources across the United States.
             </p>
             <p className="text-white/40 text-xs">
               Your trusted source for government surplus auctions.
-            </p>
+            </p> */}
           </div>
 
           {/* Company Links */}
@@ -102,7 +102,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-sm text-center md:text-left">
-            © {currentYear}, MoneyMeta. All rights reserved.
+            © {currentYear}, GoodsAroundTheWorld. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <Link href="/privacy" className="text-white/60 hover:text-white transition-colors">
@@ -120,8 +120,10 @@ export default function Footer() {
         {/* Disclaimer */}
         <div className="mt-6 pt-6 border-t border-white/10">
           <p className="text-white/40 text-xs text-center">
-            MoneyMeta aggregates publicly available government auction data. We are not affiliated with any government agency. 
-            All auctions are conducted by their respective government entities. Please verify all information directly with the official sources.
+            {/* MoneyMeta aggregates publicly available government auction data. We are not affiliated with any government agency.  */}
+            {/* All a */}
+            Auctions are conducted by their respective government entities. 
+            {/* Please verify all information directly with the official sources. */}
           </p>
         </div>
       </div>

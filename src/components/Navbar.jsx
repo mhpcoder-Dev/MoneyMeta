@@ -12,8 +12,8 @@ export default function Navbar() {
 
   const navItems = [
     { path: '/', label: 'GOVERNMENT SALES AND AUCTIONS', icon: Gavel },
-    { path: '/future', label: 'FUTURE SALES', icon: Clock },
-    { path: '/announcements', label: 'ANNOUNCEMENTS FROM COMPANIES', icon: Sparkles },
+    // { path: '/future', label: 'FUTURE SALES', icon: Clock },
+    // { path: '/announcements', label: 'ANNOUNCEMENTS FROM COMPANIES', icon: Sparkles },
   ]
 
   const toggleMobileMenu = () => {
@@ -30,8 +30,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center group" onClick={closeMobileMenu}>
-            <h1 className="text-2xl md:text-4xl font-bold gradient-text tracking-tight">
-              moneymeta
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold gradient-text tracking-tight truncate">
+              GoodsAroundTheWorld
             </h1>
           </Link>
 
