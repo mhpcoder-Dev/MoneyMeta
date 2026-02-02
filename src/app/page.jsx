@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDebounce } from '@/hooks/useDebounce';
+import { API_ENDPOINTS } from '@/lib/api-config';
+import { auctionService } from '@/services';
 
 const ITEMS_PER_PAGE = 24; // Number of items to show per page
 
@@ -81,11 +83,13 @@ export default function Home() {
       setLoading(currentPage === 1);
       setIsLoadingMore(currentPage > 1);
       
-      // Build query parameters for server-side filtering and pagination
-      const params = new URLSearchParams({
+      // Use auction service instead of direct fetch
+      const data = await auctionService.getAll({
         status: 'active',
         skip: (currentPage - 1) * ITEMS_PER_PAGE,
-        limit: ITEMS_PER_PAGE
+        limit: ITEMS_PER_PAGE,
+        search: debouncedSearchQuery || null,
+        assetTypes: selectedAssetTypes.length > 0 ? selectedAssetTypes : null,
       });
       
       // // Add filters - use debounced search query
@@ -96,20 +100,20 @@ export default function Home() {
       //   params.append('asset_type', selectedAssetTypes.join(','));
       // }
       
-      console.log('Fetching auctions with params:', params.toString());
-      const response = await fetch(`/api/auctions?${params.toString()}`);
-      console.log('Response status:', response.status);
+      // console.log('Fetching auctions with params:', params.toString());
+      // const response = await fetch(`/api/auctions?${params.toString()}`);
+      // console.log('Response status:', response.status);
       
-      const data = await response.json();
-      console.log('Received data:', data);
-      console.log('Number of items:', data.items?.length);
-      if (data.items && data.items.length > 0) {
-        console.log('First item structure:', data.items[0]);
-      }
+      // const data = await response.json();
+      // console.log('Received data:', data);
+      // console.log('Number of items:', data.items?.length);
+      // if (data.items && data.items.length > 0) {
+      //   console.log('First item structure:', data.items[0]);
+      // }
       
-      if (data.status === 'error') {
-        console.error('API Error:', data.message, data.hint);
-      }
+      // if (data.status === 'error') {
+      //   console.error('API Error:', data.message, data.hint);
+      // }
       
       setAuctions(data.items || []);
       setTotalItems(data.pagination?.total || 0);

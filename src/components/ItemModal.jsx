@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Calendar, ExternalLink, Building, Tag, DollarSign, RefreshCw, Users, Clock } from 'lucide-react';
 import CommentSection from '@/components/CommentSection';
+import { API_ENDPOINTS } from '@/lib/api-config';
+import { auctionService } from '@/services';
+import { formatLocation } from '@/utils/locationUtils';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
@@ -77,15 +80,9 @@ export default function ItemModal({ item, open, onOpenChange, scrollToComments }
     
     try {
       setLoading(true);
-      const response = await fetch(`/api/auctions/gsa/${item.saleNo}/${item.lotNo}`);
-      
-      if (response.ok) {
-        const data = await response.json();
-        setLatestData(data.item);
-        setLastUpdated(new Date());
-      } else {
-        console.error('Failed to fetch latest data:', response.status);
-      }
+      const data = await auctionService.getById('gsa', item.saleNo, item.lotNo);
+      setLatestData(data.item);
+      setLastUpdated(new Date());
     } catch (error) {
       console.error('Error fetching latest bid data:', error);
     } finally {
@@ -98,7 +95,7 @@ export default function ItemModal({ item, open, onOpenChange, scrollToComments }
   // Use latest data if available, otherwise fall back to original item data
   const displayItem = latestData || item;
 
-  const primaryImage = displayItem.images?.[0] || displayItem.imageUrl;
+  const primaryImage = displayItem.images?.[0] || displayItem.imageUrl || displayItem.image_urls;
 
   const formatCurrency = (amount, currency = 'USD') => {
     if (!amount) return 'N/A';

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Calendar, MessageCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import ItemModal from './ItemModal';
+import { formatLocation } from '@/utils/locationUtils';
 
 const getAssetTypeLabel = (assetType) => {
   const labels = {
