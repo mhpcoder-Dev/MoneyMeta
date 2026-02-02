@@ -48,23 +48,29 @@ export async function GET(request) {
     }
     
     const data = await response.json();
+    return NextResponse.json({
+      items : data.items,
+      pagination: data.pagination,
+      filters: data.filters,
+    });
+
     
     // Transform items to frontend format if needed
-    const items = data.items.map(item => transformToFrontendFormat(item));
+    // const items = data.items.map(item => transformToFrontendFormat(item));
     
-    return NextResponse.json({
-      items: items,
-      total: data.total,
-      sources: {
-        gcsurplus: items.filter(i => i.source === 'gcsurplus').length,
-        gsa: items.filter(i => i.source === 'gsa').length
-      },
-      status: 'success',
-      metadata: {
-        source: 'fastapi',
-        timestamp: new Date().toISOString()
-      }
-    });
+    // return NextResponse.json({
+    //   items: items,
+    //   total: data.total,
+    //   sources: {
+    //     gcsurplus: items.filter(i => i.source === 'gcsurplus').length,
+    //     gsa: items.filter(i => i.source === 'gsa').length
+    //   },
+    //   status: 'success',
+    //   metadata: {
+    //     source: 'fastapi',
+    //     timestamp: new Date().toISOString()
+    //   }
+    // });
     
   } catch (error) {
     console.error('Error fetching auctions from FastAPI:', error);

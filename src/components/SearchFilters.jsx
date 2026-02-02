@@ -28,6 +28,7 @@ export default function SearchFilters({
   selectedAssetTypes,
   onAssetTypeToggle,
   availableCountries,
+  hideAssetTypes = false,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -87,25 +88,27 @@ export default function SearchFilters({
         )}
 
         {/* Asset type filters */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium text-white">Asset Types</h3>
-          <div className="flex flex-wrap gap-2">
-            {assetTypes.map((type) => (
-              <Badge
-                key={type}
-                variant={selectedAssetTypes.includes(type) ? "default" : "outline"}
-                className={`cursor-pointer transition-colors ${
-                  selectedAssetTypes.includes(type)
-                    ? "bg-[#d4ff00] text-[#0a0e27] hover:bg-[#d4ff00]/90 font-semibold"
-                    : "bg-transparent border-white/30 text-white/80 hover:bg-white/10 hover:text-white"
-                }`}
-                onClick={() => onAssetTypeToggle(type)}
-              >
-                {getAssetTypeLabel(type)}
-              </Badge>
-            ))}
+        {!hideAssetTypes && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-white">Asset Types</h3>
+            <div className="flex flex-wrap gap-2">
+              {assetTypes.map((type) => (
+                <Badge
+                  key={type}
+                  variant={selectedAssetTypes.includes(type) ? "default" : "outline"}
+                  className={`cursor-pointer transition-colors ${
+                    selectedAssetTypes.includes(type)
+                      ? "bg-[#d4ff00] text-[#0a0e27] hover:bg-[#d4ff00]/90 font-semibold"
+                      : "bg-transparent border-white/30 text-white/80 hover:bg-white/10 hover:text-white"
+                  }`}
+                  onClick={() => onAssetTypeToggle(type)}
+                >
+                  {getAssetTypeLabel(type)}
+                </Badge>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

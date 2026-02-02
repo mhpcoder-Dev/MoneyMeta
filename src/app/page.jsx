@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import ItemCard from '@/components/ItemCard';
 import SearchFilters from '@/components/SearchFilters';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useDebounce } from '@/hooks/useDebounce';
 
 const ITEMS_PER_PAGE = 24; // Number of items to show per page
@@ -25,19 +26,37 @@ const getAssetTypeLabel = (assetType) => {
 
 // Extract country from auction location
 const getCountryFromAuction = (auction) => {
-  const locationParts = auction.location.split(',').map(part => part.trim());
-  const usStateCodes = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
-  const lastPart = locationParts[locationParts.length - 1];
-  
-  // If source is GSA or location ends with US state code, it's United States
-  if (auction.source === 'GSA' || usStateCodes.includes(lastPart)) {
-    return 'United States';
-  } else if (lastPart && lastPart.length > 2) {
-    // If last part is longer than 2 chars, it's likely a country name
-    return lastPart;
+  // Handle new object-based location structure
+  if (auction.location && typeof auction.location === 'object') {
+    // Direct country field from backend
+    if (auction.location.country) {
+      return auction.location.country === 'USA' ? 'United States' : auction.location.country;
+    }
   }
-  // Default to United States
-  return 'United States';
+  
+  // Fallback for old string-based location format (backward compatibility)
+  if (typeof auction.location === 'string') {
+    const locationParts = auction.location.split(',').map(part => part.trim());
+    const usStateCodes = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+    const lastPart = locationParts[locationParts.length - 1];
+    
+    // If source is GSA or location ends with US state code, it's United States
+    if (auction.source === 'GSA' || auction.source === 'gsa' || usStateCodes.includes(lastPart)) {
+      return 'United States';
+    } else if (lastPart && lastPart.length > 2) {
+      // If last part is longer than 2 chars, it's likely a country name
+      return lastPart;
+    }
+  }
+  
+  // Default based on source
+  if (auction.source === 'gsa' || auction.source === 'GSA') {
+    return 'United States';
+  } else if (auction.source === 'gcsurplus') {
+    return 'Canada';
+  }
+  
+  return 'Unknown';
 };
 
 export default function Home() {
@@ -69,21 +88,35 @@ export default function Home() {
         limit: ITEMS_PER_PAGE
       });
       
-      // Add filters - use debounced search query
-      if (debouncedSearchQuery) {
-        params.append('search', debouncedSearchQuery);
-      }
-      if (selectedAssetTypes.length > 0) {
-        params.append('asset_type', selectedAssetTypes.join(','));
+      // // Add filters - use debounced search query
+      // if (debouncedSearchQuery) {
+      //   params.append('search', debouncedSearchQuery);
+      // }
+      // if (selectedAssetTypes.length > 0) {
+      //   params.append('asset_type', selectedAssetTypes.join(','));
+      // }
+      
+      console.log('Fetching auctions with params:', params.toString());
+      const response = await fetch(`/api/auctions?${params.toString()}`);
+      console.log('Response status:', response.status);
+      
+      const data = await response.json();
+      console.log('Received data:', data);
+      console.log('Number of items:', data.items?.length);
+      if (data.items && data.items.length > 0) {
+        console.log('First item structure:', data.items[0]);
       }
       
-      const response = await fetch(`/api/auctions?${params.toString()}`);
-      const data = await response.json();
+      if (data.status === 'error') {
+        console.error('API Error:', data.message, data.hint);
+      }
       
       setAuctions(data.items || []);
-      setTotalItems(data.total || 0);
+      setTotalItems(data.pagination?.total || 0);
     } catch (error) {
       console.error('Error fetching auctions:', error);
+      setAuctions([]);
+      setTotalItems(0);
     } finally {
       setLoading(false);
       setIsLoadingMore(false);
@@ -192,22 +225,63 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
-          <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-20">
-              <SearchFilters
-                searchQuery={searchQuery}
-                onSearchChange={handleSearchChange}
-                selectedCountries={selectedCountries}
-                onCountryToggle={handleCountryToggle}
-                selectedAssetTypes={selectedAssetTypes}
-                onAssetTypeToggle={handleAssetTypeToggle}
-                availableCountries={availableCountries}
+        {/* Search and Filters - Top of Page */}
+        <div className="mb-6 space-y-4">
+          {/* Search Bar */}
+          <div className="bg-[#1a1f3a] rounded-xl p-4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search auctions..."
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-[#0f1429] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#d4ff00] focus:border-[#d4ff00]"
               />
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60">
+                🔍
+              </div>
             </div>
           </div>
 
-          <div className="lg:col-span-3">
+          {/* Category Filters */}
+          <div className="bg-[#1a1f3a] rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-white">Filter by Category</h3>
+              {selectedAssetTypes.length > 0 && (
+                <Button
+                  onClick={() => {
+                    selectedAssetTypes.forEach(type => handleAssetTypeToggle(type));
+                  }}
+                  size="sm"
+                  variant="ghost"
+                  className="h-8 text-white/80 hover:text-white hover:bg-white/10"
+                >
+                  <X className="h-4 w-4 mr-1" />
+                  Clear
+                </Button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {['land', 'real-estate', 'vehicles', 'motorcycles', 'electronics', 'industrial', 'furniture', 'collectibles'].map((type) => (
+                <Badge
+                  key={type}
+                  variant={selectedAssetTypes.includes(type) ? "default" : "outline"}
+                  className={`cursor-pointer transition-colors ${
+                    selectedAssetTypes.includes(type)
+                      ? "bg-[#d4ff00] text-[#0a0e27] hover:bg-[#d4ff00]/90 font-semibold"
+                      : "bg-transparent border-white/30 text-white/80 hover:bg-white/10 hover:text-white"
+                  }`}
+                  onClick={() => handleAssetTypeToggle(type)}
+                >
+                  {getAssetTypeLabel(type)}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:gap-6">
+          <div>
             {filteredAuctions.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-white/60">
@@ -229,7 +303,7 @@ export default function Home() {
                 </div>
 
               {/* Grid Layout - All Devices (Responsive columns) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8 relative">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8 relative">
                 {isLoadingMore && (
                   <div className="absolute inset-0 bg-[#0a0e27]/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-lg">
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4ff00]"></div>

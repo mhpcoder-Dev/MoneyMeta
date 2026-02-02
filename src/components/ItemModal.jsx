@@ -139,7 +139,12 @@ export default function ItemModal({ item, open, onOpenChange, scrollToComments }
           <DialogDescription className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 flex-shrink-0" />
-              <span className="break-words">{displayItem.location}</span>
+              <span className="break-words">
+                {typeof displayItem.location === 'object'
+                  ? [displayItem.location.city, displayItem.location.region, displayItem.location.country].filter(Boolean).join(', ')
+                  : displayItem.location || 'Location not specified'
+                }
+              </span>
             </div>
             {lastUpdated && (
               <span className="text-xs text-muted-foreground sm:ml-auto">

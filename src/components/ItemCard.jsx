@@ -84,7 +84,18 @@ export default function ItemCard({ item }) {
     return `Ending in ${minutes}m`;
   };
 
-  const primaryImage = item.images?.[0] || item.imageUrl;
+  // Handle different image field formats from backend
+  let primaryImage;
+  if (Array.isArray(item.images)) {
+    primaryImage = item.images[0];
+  } else if (typeof item.images === 'string' && item.images && item.images !== 'h') {
+    primaryImage = item.images;
+  } else if (item.imageUrl && item.imageUrl !== 'h') {
+    primaryImage = item.imageUrl;
+  } else if (item.image_urls) {
+    primaryImage = item.image_urls;
+  }
+  
   const timeRemaining = getTimeRemaining();
 
   return (
@@ -161,7 +172,12 @@ export default function ItemCard({ item }) {
               {/* Location */}
               <div className="flex items-center justify-center gap-2 text-gray-700">
                 <MapPin className="h-3 w-3 flex-shrink-0" />
-                <span className="text-xs truncate">{item.location}</span>
+                <span className="text-xs truncate">
+                  {typeof item.location === 'object' 
+                    ? [item.location.city, item.location.region, item.location.country].filter(Boolean).join(', ')
+                    : item.location || 'Location not specified'
+                  }
+                </span>
               </div>
 
               {/* Title */}
