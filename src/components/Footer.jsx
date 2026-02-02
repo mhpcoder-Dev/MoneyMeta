@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div className="col-span-1">
-            <h2 className="text-2xl font-bold gradient-text mb-4">moneymeta</h2>
+            <h2 className="text-2xl font-bold gradient-text mb-4">GoodsAroundTheWorld</h2>
             {/* <p className="text-white/60 text-sm mb-4">
               Discover active government auctions and surplus sales from official sources across the United States.
             </p>
